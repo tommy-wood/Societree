@@ -29,7 +29,7 @@ seed/                  Base44 export (raw CSV + cleaned JSON)
    npx supabase link --project-ref YOUR-PROJECT-REF
    npx supabase db push
    ```
-4. Load the existing data, once: `npm run seed`
+4. Load the existing data, once: `npm run seed`. Or, without Node: open `seed/societree-seed.sql`, copy all of it, and paste it into the Supabase dashboard's **SQL Editor** → Run. (Regenerate that file with `npm run seed:sql` if the JSON changes.)
 5. Run the app: `npm run web` (or `npm start` and scan the QR code with Expo Go)
 
 ## Local development database (optional, needs Docker)
