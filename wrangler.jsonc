@@ -1,0 +1,13 @@
+// Cloudflare Workers config for hosting the Societree web app (static files only).
+// Build command: npm run build:web    Deploy command: npx wrangler deploy
+{
+  // Must match the Worker's name in the Cloudflare dashboard.
+  "name": "societree",
+  "compatibility_date": "2026-11-17",
+  "assets": {
+    // Where `npm run build:web` puts the app.
+    "directory": "./dist",
+    // Any unknown path (e.g. /site/123) serves index.html so the app's own routing takes over.
+    "not_found_handling": "single-page-application"
+  }
+}

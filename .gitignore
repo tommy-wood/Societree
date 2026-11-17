@@ -50,3 +50,6 @@ example
 # supabase local
 supabase/.branches
 supabase/.temp
+
+# Cloudflare
+.wrangler

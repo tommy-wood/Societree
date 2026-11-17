@@ -58,11 +58,12 @@ In the Supabase dashboard, under **Authentication → URL Configuration**, set t
 
 `npm run build:web` builds the web app into `dist/` and fills in the service worker's file list. The app can be installed on phones ("Add to Home Screen"), opens without signal, and always loads live data from Supabase.
 
-Hosting is on **Cloudflare Pages** (free), connected to this GitHub repo:
+Hosting is on **Cloudflare Workers** (free, static files only), connected to this GitHub repo. `wrangler.jsonc` tells Cloudflare to serve `dist/` as a single-page app.
 
 - Build command: `npm run build:web`
-- Build output directory: `dist`
-- Environment variables: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_KEY` (publishable key), `NODE_VERSION` = `22`
+- Deploy command: `npx wrangler deploy`
+- Build variables (Settings → Build → Variables and secrets): `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_KEY` (publishable key), `NODE_VERSION` = `22`
+- The Worker's name in the dashboard must match `name` in `wrangler.jsonc` (`societree`).
 
 Every push to `main` deploys the live site; other branches get their own preview link. After the first deploy, add the site's address in Supabase under **Authentication → URL Configuration** (Site URL, plus Redirect URLs).
 
