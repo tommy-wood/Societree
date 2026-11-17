@@ -1,0 +1,61 @@
+name: Weekly backup
+
+# Copies the database and all photos/receipts to Cloudflare R2 every Sunday
+# night. Setup and restore steps: BACKUP.md. Run it now from the Actions tab
+# ("Weekly backup" > "Run workflow").
+on:
+  schedule:
+    - cron: '17 3 * * 0' # Sundays 03:17 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+    steps:
+      - name: Check the backup has been set up
+        id: cfg
+        run: |
+          missing=""
+          for v in SUPABASE_DB_URL SUPABASE_SECRET_KEY R2_ACCOUNT_ID R2_ACCESS_KEY_ID R2_SECRET_ACCESS_KEY R2_BUCKET; do
+            [ -z "${!v}" ] && missing="$missing $v"
+          done
+          if [ -n "$missing" ]; then
+            echo "::warning::Backup not set up yet. Missing GitHub secrets:$missing (see BACKUP.md)"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.cfg.outputs.ready == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.ready == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - if: steps.cfg.outputs.ready == 'true'
+        run: npm ci
+
+      - name: Export the database
+        if: steps.cfg.outputs.ready == 'true'
+        run: |
+          mkdir -p backup
+          npx supabase db dump --db-url "$SUPABASE_DB_URL" --role-only -f backup/roles.sql
+          npx supabase db dump --db-url "$SUPABASE_DB_URL" -f backup/schema.sql
+          npx supabase db dump --db-url "$SUPABASE_DB_URL" --data-only -f backup/data.sql
+
+      - name: Copy database and new files to R2
+        if: steps.cfg.outputs.ready == 'true'
+        run: node scripts/backup.mjs backup

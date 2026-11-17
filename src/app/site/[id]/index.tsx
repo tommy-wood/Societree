@@ -8,11 +8,11 @@ import { Button, Card, Message, Screen, SectionTitle } from '@/components/ui';
 import { useColors } from '@/constants/theme';
 import { useData, type Site } from '@/lib/data';
 import { directionsUrl, formatDate, visitedText } from '@/lib/logic';
-import { signedPhotoUrls } from '@/lib/photos';
+import { signedPhotoUrl, signedPhotoUrls } from '@/lib/photos';
 import { supabase, type Tables } from '@/lib/supabase';
 
 type Visit = Tables<'visits'> & {
-  visit_photos: { id: string; storage_path: string }[];
+  visit_photos: { id: string; storage_path: string; thumb_path: string | null }[];
   profiles: { name: string } | null;
 };
 type Job = Tables<'jobs'>;
@@ -37,7 +37,7 @@ export default function SiteDetail() {
       supabase.from('sites').select('*').eq('id', id).maybeSingle(),
       supabase
         .from('visits')
-        .select('*, visit_photos(id, storage_path), profiles!visits_logged_by_fkey(name)')
+        .select('*, visit_photos(id, storage_path, thumb_path), profiles!visits_logged_by_fkey(name)')
         .eq('site_id', id)
         .order('date', { ascending: false })
         .order('created_at', { ascending: false }),
@@ -51,7 +51,8 @@ export default function SiteDetail() {
     setSite(s.data);
     setVisits((v.data ?? []) as Visit[]);
     setJobs(j.data ?? []);
-    const paths = (v.data ?? []).flatMap((x) => x.visit_photos.map((p) => p.storage_path));
+    // Only the small previews are loaded here; the full photo is fetched when tapped.
+    const paths = (v.data ?? []).flatMap((x) => x.visit_photos.map((p) => p.thumb_path ?? p.storage_path));
     setUrls(await signedPhotoUrls(paths));
   }, [id]);
 
@@ -199,11 +200,25 @@ export default function SiteDetail() {
               {v.notes ? <Text style={{ color: c.muted, marginTop: 6, lineHeight: 20 }}>{v.notes}</Text> : null}
               {v.visit_photos.length > 0 ? (
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
-                  {v.visit_photos.map((p) => (
-                    <Pressable key={p.id} accessibilityRole="imagebutton" accessibilityLabel="Open photo" onPress={() => urls[p.storage_path] && setViewing(urls[p.storage_path])}>
-                      <Image source={urls[p.storage_path]} style={{ width: 72, height: 72, borderRadius: 8, backgroundColor: c.line }} contentFit="cover" transition={150} />
-                    </Pressable>
-                  ))}
+                  {v.visit_photos.map((p) => {
+                    const preview = urls[p.thumb_path ?? p.storage_path];
+                    return (
+                      <Pressable
+                        key={p.id}
+                        accessibilityRole="imagebutton"
+                        accessibilityLabel="Open photo"
+                        onPress={async () => {
+                          if (!preview) return;
+                          setViewing(preview); // show the preview straight away…
+                          if (p.thumb_path) {
+                            const full = await signedPhotoUrl(p.storage_path); // …then swap in the full photo
+                            if (full) setViewing((cur) => (cur === preview ? full : cur));
+                          }
+                        }}>
+                        <Image source={preview} style={{ width: 72, height: 72, borderRadius: 8, backgroundColor: c.line }} contentFit="cover" transition={150} />
+                      </Pressable>
+                    );
+                  })}
                 </View>
               ) : v.legacy_photo_count > 0 ? (
                 <Text style={{ color: c.muted, marginTop: 6 }}>

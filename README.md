@@ -72,6 +72,10 @@ Hosting is on **Cloudflare Workers** (free, static files only), connected to thi
 
 Every push to `main` deploys the live site; other branches get their own preview link. After the first deploy, add the site's address in Supabase under **Authentication → URL Configuration** (Site URL, plus Redirect URLs).
 
+## Backups
+
+A weekly GitHub Action copies the database and every photo and receipt to Cloudflare R2. Setup and restore steps: [BACKUP.md](BACKUP.md).
+
 ## CI
 
 Every push runs typecheck, lint and a web build. A second job starts Supabase in Docker, applies the migrations, seeds the data and runs the RLS checks.

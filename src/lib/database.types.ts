@@ -225,14 +225,14 @@ isOneToOne: false
                   ]
                 },"visit_photos": {
                   Row: {
-                    "created_at": string,"id": string,"storage_path": string,"uploaded_by": string | null,"visit_id": string
+                    "created_at": string,"id": string,"storage_path": string,"thumb_path": string | null,"uploaded_by": string | null,"visit_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id"?: string,"storage_path": string,"uploaded_by"?: string | null,"visit_id": string
+                    "created_at"?: string,"id"?: string,"storage_path": string,"thumb_path"?: string | null,"uploaded_by"?: string | null,"visit_id": string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"storage_path"?: string,"uploaded_by"?: string | null,"visit_id"?: string
+                    "created_at"?: string,"id"?: string,"storage_path"?: string,"thumb_path"?: string | null,"uploaded_by"?: string | null,"visit_id"?: string
                   }
                   Relationships: [
                     {

@@ -51,6 +51,21 @@ jobs:
           node scripts/test-rls.mjs
           node scripts/test-timesheets.mjs
           node scripts/test-invites.mjs
+      - name: Backup and restore scripts work (local S3 stand-in for R2)
+        run: |
+          eval "$(npx supabase status -o env)"
+          export SUPABASE_URL="$API_URL" SUPABASE_SECRET_KEY="$SECRET_KEY" R2_ENDPOINT="$STORAGE_S3_URL" R2_REGION="$S3_PROTOCOL_REGION"
+          export R2_ACCESS_KEY_ID="$S3_PROTOCOL_ACCESS_KEY_ID" R2_SECRET_ACCESS_KEY="$S3_PROTOCOL_ACCESS_KEY_SECRET" R2_BUCKET=backup-test
+          node -e "const {createClient}=require('@supabase/supabase-js');const c=createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SECRET_KEY);(async()=>{await c.storage.createBucket('backup-test');const r=await c.storage.from('visit-photos').upload('ci/photo.jpg',new Blob([new Uint8Array([255,216,255,1])],{type:'image/jpeg'}));if(r.error)throw r.error})()"
+          mkdir -p backup
+          npx supabase db dump --db-url "$DB_URL" --data-only -f backup/data.sql
+          node scripts/backup.mjs backup | tee run1.txt
+          grep -q "visit-photos: 1 files, 1 new copied" run1.txt
+          node scripts/backup.mjs backup | tee run2.txt
+          grep -q "visit-photos: 1 files, 0 new copied" run2.txt
+          node -e "const {createClient}=require('@supabase/supabase-js');const c=createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SECRET_KEY);c.storage.from('visit-photos').remove(['ci/photo.jpg']).then(r=>{if(r.error)throw r.error})"
+          node scripts/restore-files.mjs | tee restore.txt
+          grep -q "Restored 1 file" restore.txt
       - name: Seed SQL is up to date with the seed JSON
         run: |
           node scripts/make-seed-sql.mjs
