@@ -46,7 +46,8 @@
     "typecheck": "tsc --noEmit",
     "seed": "node --env-file-if-exists=.env.local scripts/seed.mjs",
     "test:rls": "node --env-file-if-exists=.env.local scripts/test-rls.mjs",
-    "db:types": "supabase gen types typescript --local > src/lib/database.types.ts"
+    "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
+    "seed:sql": "node scripts/make-seed-sql.mjs"
   },
   "private": true
 }

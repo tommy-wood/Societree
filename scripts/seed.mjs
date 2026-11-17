@@ -51,7 +51,7 @@ async function count(table) {
 async function main() {
   const data = JSON.parse(await readFile(seedPath, 'utf8'));
   console.log(`Seed file: ${data.source} (exported ${data.exported})`);
-  console.log(`  ${data.sites.length} sites, ${data.visits.length} visits, ${data.stock_items.length} stock items\n`);
+  console.log(`  ${data.sites.length} sites, ${data.visits.length} visits, ${data.stock_items.length} stock items, ${(data.jobs ?? []).length} jobs\n`);
 
   // ---- 0. Guard against double-seeding ------------------------------------
   const existing = {
@@ -160,7 +160,21 @@ async function main() {
   check((await db.from('stock_items').insert(stockRows)).error, 'insert stock');
   console.log(`✓ ${stockRows.length} stock items`);
 
-  // ---- 5. Summary ---------------------------------------------------------
+  // ---- 5. Jobs (optional in the seed file) --------------------------------
+  const jobRows = (data.jobs ?? []).map((j) => {
+    const sid = siteId.get(j.site_id);
+    if (!sid) {
+      console.error(`✗ Job references unknown site slug "${j.site_id}"`);
+      process.exit(1);
+    }
+    return { site_id: sid, text: text(j.text).trim(), done: Boolean(j.done), created_by: null };
+  });
+  if (jobRows.length) {
+    check((await db.from('jobs').insert(jobRows)).error, 'insert jobs');
+    console.log(`✓ ${jobRows.length} jobs`);
+  }
+
+  // ---- 6. Summary ---------------------------------------------------------
   const low = stockRows.filter((i) => i.low_at > 0 && i.quantity < i.low_at);
   console.log(
     `\nDone: ${await count('sites')} sites, ${await count('visits')} visits, ${await count('stock_items')} stock items.`,
