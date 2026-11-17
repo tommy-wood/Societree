@@ -7,8 +7,10 @@ import { useColorScheme } from 'react-native';
 import { Brand, Palette } from '@/constants/theme';
 import { AuthProvider, useAuth } from '@/lib/auth';
 import { DataProvider } from '@/lib/data';
+import { registerServiceWorker } from '@/lib/pwa';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+registerServiceWorker();
 
 export default function RootLayout() {
   const dark = useColorScheme() === 'dark';
@@ -41,7 +43,7 @@ function RootStack() {
   const signedIn = !!session;
   return (
     // Re-created on sign-in/out or approval so the data reloads with the right permissions.
-    <DataProvider key={`${userId}:${isMember}`}>
+    <DataProvider key={`${userId}:${isMember}`} enabled={signedIn && isMember}>
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: Brand.header },

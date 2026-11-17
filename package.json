@@ -45,7 +45,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "build:web": "expo export --platform web",
+    "build:web": "expo export --platform web && node scripts/postbuild-web.mjs dist",
     "typecheck": "tsc --noEmit",
     "seed": "node --env-file-if-exists=.env.local scripts/seed.mjs",
     "test:rls": "node --env-file-if-exists=.env.local scripts/test-rls.mjs",

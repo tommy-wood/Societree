@@ -54,6 +54,18 @@ People sign in with email and password. The first person to sign up becomes the 
 
 In the Supabase dashboard, under **Authentication → URL Configuration**, set the Site URL to the web app's address (for now `http://localhost:8081`). Confirmation and password-reset emails link back there.
 
+## Web app (PWA) and hosting
+
+`npm run build:web` builds the web app into `dist/` and fills in the service worker's file list. The app can be installed on phones ("Add to Home Screen"), opens without signal, and always loads live data from Supabase.
+
+Hosting is on **Cloudflare Pages** (free), connected to this GitHub repo:
+
+- Build command: `npm run build:web`
+- Build output directory: `dist`
+- Environment variables: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_KEY` (publishable key), `NODE_VERSION` = `22`
+
+Every push to `main` deploys the live site; other branches get their own preview link. After the first deploy, add the site's address in Supabase under **Authentication → URL Configuration** (Site URL, plus Redirect URLs).
+
 ## CI
 
 Every push runs typecheck, lint and a web build. A second job starts Supabase in Docker, applies the migrations, seeds the data and runs the RLS checks.

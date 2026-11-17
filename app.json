@@ -8,7 +8,7 @@
     "scheme": "societree",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/images/icon.png"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +25,9 @@
       "name": "Societree Forest Care",
       "shortName": "Societree",
       "themeColor": "#0F241C",
-      "backgroundColor": "#f3f7f4"
+      "backgroundColor": "#f3f7f4",
+      "description": "Log visits, see which forests need work and keep track of stock.",
+      "lang": "en-GB"
     },
     "plugins": [
       "expo-router",

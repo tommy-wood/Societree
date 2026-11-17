@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Session } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
@@ -33,13 +34,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     Platform.OS === 'web' && typeof window !== 'undefined' && window.location.hash.includes('type=recovery'),
   );
 
+  // The last profile we saw is kept on the device, so the app opens straight
+  // away (even with no signal) and then checks with the server.
+  const cacheKey = (id: string) => `societree.profile.${id}`;
+
   const loadProfile = useCallback(async (userId: string | undefined) => {
     if (!userId) {
       setProfile(null);
       return;
     }
-    const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    if (error) return; // offline or server trouble: keep what we have
     setProfile(data ?? null);
+    if (data) AsyncStorage.setItem(cacheKey(userId), JSON.stringify(data)).catch(() => {});
+    else AsyncStorage.removeItem(cacheKey(userId)).catch(() => {});
+  }, []);
+
+  const loadCachedProfile = useCallback(async (userId: string | undefined) => {
+    if (!userId) return false;
+    try {
+      const raw = await AsyncStorage.getItem(cacheKey(userId));
+      if (!raw) return false;
+      setProfile(JSON.parse(raw) as Profile);
+      return true;
+    } catch {
+      return false;
+    }
   }, []);
 
   useEffect(() => {
@@ -47,7 +67,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(async ({ data }) => {
       if (!active) return;
       setSession(data.session);
-      await loadProfile(data.session?.user.id);
+      const userId = data.session?.user.id;
+      if (await loadCachedProfile(userId)) {
+        setLoading(false);
+        loadProfile(userId); // refresh in the background
+      } else {
+        await loadProfile(userId);
+      }
       if (active) setLoading(false);
     });
 
@@ -64,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [loadProfile]);
+  }, [loadProfile, loadCachedProfile]);
 
   const value = useMemo<AuthState>(() => {
     const role = (profile?.role as Role | undefined) ?? null;
@@ -82,7 +108,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (Platform.OS === 'web' && typeof window !== 'undefined') window.history.replaceState(null, '', '/');
       },
       signOut: async () => {
-        await supabase.auth.signOut();
+        if (session) AsyncStorage.removeItem(cacheKey(session.user.id)).catch(() => {});
+        await supabase.auth.signOut({ scope: 'local' });
         setProfile(null);
       },
     };

@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 
+import { InstallBanner } from '@/components/install-banner';
 import { EmptyState, LogVisitFab, SiteCard, StatTile } from '@/components/sites';
 import { Button, Card, Message, Screen, SectionTitle } from '@/components/ui';
 import { useColors } from '@/constants/theme';
@@ -22,6 +23,17 @@ export default function Today() {
     );
   }
 
+  if (error && sites.length === 0) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Screen onRefresh={() => reload(true)} fabSpace>
+          <Message tone="error">{error}</Message>
+        </Screen>
+        <LogVisitFab />
+      </View>
+    );
+  }
+
   const attention = sites.filter((s) => s.needsAttention);
   const low = stock.filter(isLowStock);
   const urgent = sites.filter((s) => s.priority === 'urgent').length;
@@ -32,6 +44,7 @@ export default function Today() {
     <View style={{ flex: 1 }}>
       <Screen onRefresh={() => reload(true)} fabSpace>
         {error ? <Message tone="error">{error}</Message> : null}
+        <InstallBanner />
         <View style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
           <StatTile value={urgent} label="Urgent" />
           <StatTile value={overdue} label="Overdue" />

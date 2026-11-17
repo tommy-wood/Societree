@@ -28,13 +28,15 @@ type DataState = {
 const DataContext = createContext<DataState | null>(null);
 const STALE_MS = 15_000;
 
-export function DataProvider({ children }: { children: ReactNode }) {
+/** `enabled` is false until the user is an approved member, so nothing is fetched before then. */
+export function DataProvider({ children, enabled = true }: { children: ReactNode; enabled?: boolean }) {
   const [raw, setRaw] = useState<{ sites: Site[]; openJobs: Record<string, number>; stock: StockItem[]; overdueDays: number } | null>(null);
   const [error, setError] = useState('');
   const lastFetch = useRef(0);
   const inFlight = useRef<Promise<void> | null>(null);
 
   const reload = useCallback(async (force = false) => {
+    if (!enabled) return;
     if (!force && Date.now() - lastFetch.current < STALE_MS) return;
     if (inFlight.current) return inFlight.current;
     inFlight.current = (async () => {
@@ -59,7 +61,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       inFlight.current = null;
     });
     return inFlight.current;
-  }, []);
+  }, [enabled]);
 
   const patchStock = useCallback((id: string, patch: Partial<StockItem>) => {
     setRaw((r) => (r ? { ...r, stock: r.stock.map((i) => (i.id === id ? { ...i, ...patch } : i)) } : r));
