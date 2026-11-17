@@ -23,7 +23,7 @@
     "expo-symbols": "~58.0.5",
     "expo-system-ui": "~58.0.7",
     "expo-web-browser": "~58.1.0",
-    "maplibre-gl": "^5.24.1",
+    "maplibre-gl": "^6.19.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.1",
@@ -41,7 +41,8 @@
     "eslint": "^9.0.0",
     "eslint-config-expo": "~58.0.4",
     "supabase": "^3.2.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "wrangler": "^4.164.0"
   },
   "scripts": {
     "start": "expo start",
@@ -57,7 +58,8 @@
     "seed:sql": "node scripts/make-seed-sql.mjs",
     "test": "node --test src/lib/*.test.ts",
     "test:timesheets": "node --env-file-if-exists=.env.local scripts/test-timesheets.mjs",
-    "test:invites": "node --env-file-if-exists=.env.local scripts/test-invites.mjs"
+    "test:invites": "node --env-file-if-exists=.env.local scripts/test-invites.mjs",
+    "postinstall": "node scripts/copy-map-worker.mjs"
   },
   "private": true
 }
