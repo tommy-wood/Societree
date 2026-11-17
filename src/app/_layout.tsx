@@ -6,6 +6,7 @@ import { useColorScheme } from 'react-native';
 
 import { Brand, Palette } from '@/constants/theme';
 import { AuthProvider, useAuth } from '@/lib/auth';
+import { DataProvider } from '@/lib/data';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -29,6 +30,7 @@ export default function RootLayout() {
 
 function RootStack() {
   const { loading, session, isMember, isAdmin, recovering } = useAuth();
+  const userId = session?.user.id ?? 'none';
 
   useEffect(() => {
     if (!loading) SplashScreen.hideAsync().catch(() => {});
@@ -38,6 +40,8 @@ function RootStack() {
 
   const signedIn = !!session;
   return (
+    // Re-created on sign-in/out or approval so the data reloads with the right permissions.
+    <DataProvider key={`${userId}:${isMember}`}>
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: Brand.header },
@@ -62,10 +66,15 @@ function RootStack() {
       <Stack.Protected guard={signedIn && !recovering && isMember}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="account" options={{ title: 'Your account', presentation: 'modal' }} />
+        <Stack.Screen name="site/[id]/index" options={{ title: '', headerBackTitle: 'Back' }} />
+        <Stack.Screen name="site/[id]/edit" options={{ title: 'Edit site', presentation: 'modal' }} />
+        <Stack.Screen name="log-visit" options={{ title: 'Log a visit', presentation: 'modal' }} />
         <Stack.Protected guard={isAdmin}>
           <Stack.Screen name="people" options={{ title: 'People' }} />
+          <Stack.Screen name="site/new" options={{ title: 'Add a site', presentation: 'modal' }} />
         </Stack.Protected>
       </Stack.Protected>
     </Stack>
+    </DataProvider>
   );
 }

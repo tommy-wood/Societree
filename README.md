@@ -16,6 +16,7 @@ src/lib/database.types.ts  generated from the schema (npm run db:types)
 supabase/migrations/   schema, RLS and storage SQL
 scripts/seed.mjs       loads seed/societree-seed-data.json
 scripts/test-rls.mjs   permission checks (local Supabase only)
+src/lib/logic.ts       overdue, score and low-stock rules (npm test)
 seed/                  Base44 export (raw CSV + cleaned JSON)
 ```
 

@@ -1,12 +1,12 @@
 import { router } from 'expo-router';
 import { Tabs } from 'expo-router/js-tabs';
-import { Pressable, Text } from 'react-native';
+import { Platform, Pressable, Text } from 'react-native';
 
 import { Brand, useColors } from '@/constants/theme';
 
 function icon(glyph: string) {
   return function TabIcon() {
-    return <Text style={{ fontSize: 20 }}>{glyph}</Text>;
+    return <Text style={{ fontSize: 20, lineHeight: 24 }}>{glyph}</Text>;
   };
 }
 
@@ -20,7 +20,8 @@ export default function TabLayout() {
         headerTitleStyle: { fontWeight: '700' },
         tabBarActiveTintColor: c.accent,
         tabBarInactiveTintColor: c.muted,
-        tabBarStyle: { backgroundColor: c.card, borderTopColor: c.line },
+        // Web has no safe-area inset to pad the bar, so give the emoji icon + label room.
+        tabBarStyle: { backgroundColor: c.card, borderTopColor: c.line, ...(Platform.OS === 'web' ? { height: 60, paddingTop: 4, paddingBottom: 6 } : null) },
         tabBarLabelStyle: { fontSize: 12 },
         headerRight: () => (
           <Pressable

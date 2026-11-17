@@ -1,8 +1,11 @@
 // Small shared building blocks, styled after the prototype's CSS.
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   ActivityIndicator,
+  Alert,
+  Platform,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,13 +20,47 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Brand, useColors } from '@/constants/theme';
 
-export function Screen({ children, scroll = true, center = false }: { children: ReactNode; scroll?: boolean; center?: boolean }) {
+export function Screen({
+  children,
+  scroll = true,
+  center = false,
+  onRefresh,
+  fabSpace = false,
+}: {
+  children: ReactNode;
+  scroll?: boolean;
+  center?: boolean;
+  /** Enables pull-to-refresh. */
+  onRefresh?: () => Promise<unknown>;
+  /** Leave room at the bottom for the floating "+ Log visit" button. */
+  fabSpace?: boolean;
+}) {
   const c = useColors();
-  const body = <View style={[styles.inner, center && styles.center]}>{children}</View>;
+  const [refreshing, setRefreshing] = useState(false);
+  const body = <View style={[styles.inner, center && styles.center, fabSpace && { paddingBottom: 96 }]}>{children}</View>;
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       {scroll ? (
-        <ScrollView contentContainerStyle={[{ flexGrow: 1 }, center && styles.center]} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          contentContainerStyle={[{ flexGrow: 1 }, center && styles.center]}
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            onRefresh ? (
+              <RefreshControl
+                refreshing={refreshing}
+                tintColor={c.accent}
+                colors={[c.accent]}
+                onRefresh={async () => {
+                  setRefreshing(true);
+                  try {
+                    await onRefresh();
+                  } finally {
+                    setRefreshing(false);
+                  }
+                }}
+              />
+            ) : undefined
+          }>
           {body}
         </ScrollView>
       ) : (
@@ -95,15 +132,16 @@ export function Button({ title, variant = 'primary', size = 'normal', busy, disa
   );
 }
 
-export function Field({ label, ...props }: TextInputProps & { label: string }) {
+export function Field({ label, style, ...props }: TextInputProps & { label: string }) {
   const c = useColors();
   return (
     <View style={{ marginBottom: 12 }}>
       <Text style={{ color: c.muted, fontSize: 13, marginBottom: 4 }}>{label}</Text>
       <TextInput
         placeholderTextColor={c.muted}
-        style={[styles.input, { color: c.ink, backgroundColor: c.card, borderColor: c.line }]}
+        accessibilityLabel={label}
         {...props}
+        style={[styles.input, { color: c.ink, backgroundColor: c.card, borderColor: c.line }, style]}
       />
     </View>
   );
@@ -138,3 +176,14 @@ const styles = StyleSheet.create({
   btnText: { fontSize: 16, fontWeight: '600' },
   input: { borderWidth: 1, borderRadius: 10, padding: 12, fontSize: 16 },
 });
+
+/** Yes/no confirmation that works on web and native. */
+export function confirmAction(title: string, message: string, confirmLabel = 'Delete'): Promise<boolean> {
+  if (Platform.OS === 'web') return Promise.resolve(typeof window !== 'undefined' && window.confirm(`${title}\n\n${message}`));
+  return new Promise((resolve) =>
+    Alert.alert(title, message, [
+      { text: 'Cancel', style: 'cancel', onPress: () => resolve(false) },
+      { text: confirmLabel, style: 'destructive', onPress: () => resolve(true) },
+    ]),
+  );
+}
