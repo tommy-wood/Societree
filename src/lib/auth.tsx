@@ -3,7 +3,7 @@ import type { Session } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
 
-import { supabase, type Tables } from './supabase';
+import { openedFromRecoveryLink, supabase, type Tables } from './supabase';
 
 export type Profile = Tables<'profiles'>;
 export type Role = 'admin' | 'volunteer' | 'pending';
@@ -29,10 +29,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [recovering, setRecovering] = useState(
-    // Supabase puts type=recovery in the URL hash of the reset link (web).
-    Platform.OS === 'web' && typeof window !== 'undefined' && window.location.hash.includes('type=recovery'),
-  );
+  // Opened from a password-reset email: show "Choose a new password" first.
+  const [recovering, setRecovering] = useState(openedFromRecoveryLink);
 
   // The last profile we saw is kept on the device, so the app opens straight
   // away (even with no signal) and then checks with the server.
@@ -131,6 +129,7 @@ export function friendlyAuthError(message: string): string {
   if (m.includes('email not confirmed')) return 'Please confirm your email first: open the link we sent you, then sign in.';
   if (m.includes('already registered')) return 'There’s already an account with that email. Try signing in instead.';
   if (m.includes('password should be at least') || m.includes('weak')) return 'Please choose a longer password (at least 8 characters).';
+  if (m.includes('different from the old password')) return 'That’s already your password. You can just sign in with it, or choose a different one.';
   if (m.includes('rate limit') || m.includes('too many')) return 'Too many attempts. Please wait a minute and try again.';
   if (m.includes('network') || m.includes('fetch')) return 'Couldn’t reach the server. Check your signal and try again.';
   return message;

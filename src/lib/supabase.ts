@@ -21,10 +21,16 @@ export const supabaseConfigured = Boolean(url && key);
  * already used, often because it was opened on a different device). Read
  * before the Supabase client starts, because it clears the address bar.
  */
+const initialUrlParams = (() => {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return new URLSearchParams();
+  return new URLSearchParams(window.location.hash.slice(1) || window.location.search.slice(1));
+})();
+
+/** True when the page was opened from a password-reset email link (read before the client clears the URL). */
+export const openedFromRecoveryLink = initialUrlParams.get('type') === 'recovery';
+
 export const openedFromFailedEmailLink = (() => {
-  if (Platform.OS !== 'web' || typeof window === 'undefined') return false;
-  const params = new URLSearchParams(window.location.hash.slice(1) || window.location.search.slice(1));
-  return Boolean(params.get('error') || params.get('error_code'));
+  return Boolean(initialUrlParams.get('error') || initialUrlParams.get('error_code'));
 })();
 
 // The publishable (anon) key is safe to ship in the app: Row Level Security
