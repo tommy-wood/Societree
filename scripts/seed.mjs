@@ -156,6 +156,7 @@ async function main() {
     low_at: Math.max(0, Math.trunc(Number(i.low_at) || 0)),
     kept_at: text(i.kept_at),
     notes: text(i.notes),
+    category: i.category === 'tool' ? 'tool' : 'material',
   }));
   check((await db.from('stock_items').insert(stockRows)).error, 'insert stock');
   console.log(`✓ ${stockRows.length} stock items`);

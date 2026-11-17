@@ -68,10 +68,10 @@ for (const s of data.sites) {
   out.push(`update public.sites set priority = ${pr(s.priority)}, last_visit = ${d(s.last_visit)} where slug = ${q(s.id)};`);
 }
 
-out.push(`\n-- Stock\ninsert into public.stock_items (name, quantity, unit, low_at, kept_at, notes) values`);
+out.push(`\n-- Stock\ninsert into public.stock_items (name, quantity, unit, low_at, kept_at, notes, category) values`);
 out.push(
   data.stock_items
-    .map((i) => `  (${q(String(i.name).trim())}, ${int(i.quantity)}, ${q(i.unit)}, ${int(i.low_at)}, ${q(i.kept_at)}, ${q(i.notes)})`)
+    .map((i) => `  (${q(String(i.name).trim())}, ${int(i.quantity)}, ${q(i.unit)}, ${int(i.low_at)}, ${q(i.kept_at)}, ${q(i.notes)}, ${q(i.category === 'tool' ? 'tool' : 'material')})`)
     .join(',\n') + ';',
 );
 

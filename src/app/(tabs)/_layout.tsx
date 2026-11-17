@@ -36,6 +36,7 @@ export default function TabLayout() {
       }}>
       <Tabs.Screen name="index" options={{ title: 'Today', headerTitle: '🌳 Societree', tabBarIcon: icon('🏠') }} />
       <Tabs.Screen name="sites" options={{ title: 'Sites', tabBarIcon: icon('📍') }} />
+      <Tabs.Screen name="map" options={{ title: 'Map', tabBarIcon: icon('🗺️') }} />
       <Tabs.Screen name="stock" options={{ title: 'Stock', tabBarIcon: icon('📦') }} />
     </Tabs>
   );

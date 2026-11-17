@@ -142,31 +142,31 @@ update public.sites set priority = null, last_visit = null where slug = 'lipson-
 update public.sites set priority = 'low', last_visit = '2026-11-05' where slug = 'mary-deans';
 
 -- Stock
-insert into public.stock_items (name, quantity, unit, low_at, kept_at, notes) values
-  ('fork', 1, 'item', 1, 'Polytunnel', ''),
-  ('hardhat', 2, 'item', 1, 'Polytunnel', ''),
-  ('broom', 2, 'item', 1, 'Polytunnel', ''),
-  ('saw', 2, '', 1, 'Polytunnel', ''),
-  ('electric tiller', 1, 'item', 0, 'Polytunnel', ''),
-  ('postwacker', 1, 'item', 0, 'Polytunnel', ''),
-  ('mattock', 1, 'item', 0, 'Polytunnel', ''),
-  ('Tree water bags', 2, '', 10, 'Polytunnel', ''),
-  ('hoses', 7, 'rolls', 3, 'Polytunnel', ''),
-  ('wheelbarrows', 2, 'barrows', 1, 'Polytunnel', ''),
-  ('water saving gel', 1, 'bag', 2, 'Polytunnel', ''),
-  ('Flags', 100, '', 0, 'Polytunnel', ''),
-  ('tree blocks', 50, 'block', 20, 'Polytunnel', ''),
-  ('tree ties', 9, 'rolls', 3, 'Polytunnel', ''),
-  ('water butts', 10, '20 litres', 5, 'Polytunnel', ''),
-  ('Biochar', 0, 'kg', 0, 'Polytunnel', ''),
-  ('spades', 5, '', 2, 'Polytunnel', ''),
-  ('Cardboard', 4, '20m²', 2, 'Polytunnel', 'Large sheets for sheet mulching'),
-  ('Wooden paling', 45, 'lengths', 20, 'Van', 'Standard 1.2m'),
-  ('Fence posts', 0, 'posts', 12, 'Store', 'Chestnut, 1.5m'),
-  ('Wood screws', 4, 'boxes', 1, 'Polytunnel', ''),
-  ('Loppers', 2, 'each', 0, 'Polytunnel', ''),
-  ('Hammers', 3, 'each', 2, 'Polytunnel', ''),
-  ('Work gloves', 3, 'pairs', 10, 'Store', 'Mixed sizes');
+insert into public.stock_items (name, quantity, unit, low_at, kept_at, notes, category) values
+  ('fork', 1, 'item', 1, 'Polytunnel', '', 'tool'),
+  ('hardhat', 2, 'item', 1, 'Polytunnel', '', 'tool'),
+  ('broom', 2, 'item', 1, 'Polytunnel', '', 'tool'),
+  ('saw', 2, '', 1, 'Polytunnel', '', 'tool'),
+  ('electric tiller', 1, 'item', 0, 'Polytunnel', '', 'tool'),
+  ('postwacker', 1, 'item', 0, 'Polytunnel', '', 'tool'),
+  ('mattock', 1, 'item', 0, 'Polytunnel', '', 'tool'),
+  ('Tree water bags', 2, '', 10, 'Polytunnel', '', 'material'),
+  ('hoses', 7, 'rolls', 3, 'Polytunnel', '', 'tool'),
+  ('wheelbarrows', 2, 'barrows', 1, 'Polytunnel', '', 'tool'),
+  ('water saving gel', 1, 'bag', 2, 'Polytunnel', '', 'material'),
+  ('Flags', 100, '', 0, 'Polytunnel', '', 'material'),
+  ('tree blocks', 50, 'block', 20, 'Polytunnel', '', 'material'),
+  ('tree ties', 9, 'rolls', 3, 'Polytunnel', '', 'material'),
+  ('water butts', 10, '20 litres', 5, 'Polytunnel', '', 'tool'),
+  ('Biochar', 0, 'kg', 0, 'Polytunnel', '', 'material'),
+  ('spades', 5, '', 2, 'Polytunnel', '', 'tool'),
+  ('Cardboard', 4, '20m²', 2, 'Polytunnel', 'Large sheets for sheet mulching', 'material'),
+  ('Wooden paling', 45, 'lengths', 20, 'Van', 'Standard 1.2m', 'material'),
+  ('Fence posts', 0, 'posts', 12, 'Store', 'Chestnut, 1.5m', 'material'),
+  ('Wood screws', 4, 'boxes', 1, 'Polytunnel', '', 'material'),
+  ('Loppers', 2, 'each', 0, 'Polytunnel', '', 'tool'),
+  ('Hammers', 3, 'each', 2, 'Polytunnel', '', 'tool'),
+  ('Work gloves', 3, 'pairs', 10, 'Store', 'Mixed sizes', 'tool');
 
 -- Jobs
 insert into public.jobs (site_id, text, done, created_by) select id, '40 round logs', false, null from public.sites where slug = 'manor-primary';

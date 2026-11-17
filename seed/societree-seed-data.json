@@ -461,7 +461,8 @@
       "unit": "item",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "hardhat",
@@ -469,7 +470,8 @@
       "unit": "item",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "broom",
@@ -477,7 +479,8 @@
       "unit": "item",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "saw",
@@ -485,7 +488,8 @@
       "unit": "",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "electric tiller",
@@ -493,7 +497,8 @@
       "unit": "item",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "postwacker",
@@ -501,7 +506,8 @@
       "unit": "item",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "mattock",
@@ -509,7 +515,8 @@
       "unit": "item",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "Tree water bags",
@@ -517,7 +524,8 @@
       "unit": "",
       "low_at": 10,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "hoses",
@@ -525,7 +533,8 @@
       "unit": "rolls",
       "low_at": 3,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "wheelbarrows",
@@ -533,7 +542,8 @@
       "unit": "barrows",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "water saving gel",
@@ -541,7 +551,8 @@
       "unit": "bag",
       "low_at": 2,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "Flags",
@@ -549,7 +560,8 @@
       "unit": "",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "tree blocks",
@@ -557,7 +569,8 @@
       "unit": "block",
       "low_at": 20,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "tree ties",
@@ -565,7 +578,8 @@
       "unit": "rolls",
       "low_at": 3,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "water butts",
@@ -573,7 +587,8 @@
       "unit": "20 litres",
       "low_at": 5,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "Biochar",
@@ -581,7 +596,8 @@
       "unit": "kg",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "spades",
@@ -589,7 +605,8 @@
       "unit": "",
       "low_at": 2,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "Cardboard",
@@ -597,7 +614,8 @@
       "unit": "20m²",
       "low_at": 2,
       "kept_at": "Polytunnel",
-      "notes": "Large sheets for sheet mulching"
+      "notes": "Large sheets for sheet mulching",
+      "category": "material"
     },
     {
       "name": "Wooden paling",
@@ -605,7 +623,8 @@
       "unit": "lengths",
       "low_at": 20,
       "kept_at": "Van",
-      "notes": "Standard 1.2m"
+      "notes": "Standard 1.2m",
+      "category": "material"
     },
     {
       "name": "Fence posts",
@@ -613,7 +632,8 @@
       "unit": "posts",
       "low_at": 12,
       "kept_at": "Store",
-      "notes": "Chestnut, 1.5m"
+      "notes": "Chestnut, 1.5m",
+      "category": "material"
     },
     {
       "name": "Wood screws",
@@ -621,7 +641,8 @@
       "unit": "boxes",
       "low_at": 1,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "material"
     },
     {
       "name": "Loppers",
@@ -629,7 +650,8 @@
       "unit": "each",
       "low_at": 0,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "Hammers",
@@ -637,7 +659,8 @@
       "unit": "each",
       "low_at": 2,
       "kept_at": "Polytunnel",
-      "notes": ""
+      "notes": "",
+      "category": "tool"
     },
     {
       "name": "Work gloves",
@@ -645,7 +668,8 @@
       "unit": "pairs",
       "low_at": 10,
       "kept_at": "Store",
-      "notes": "Mixed sizes"
+      "notes": "Mixed sizes",
+      "category": "tool"
     }
   ],
   "jobs": [

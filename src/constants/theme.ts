@@ -7,6 +7,7 @@ export const Brand = {
   urgent: '#c0392b',
   medium: '#d9822b',
   low: '#2e8b57',
+  overdue: '#7f8c8d',
 } as const;
 
 export const Palette = {
@@ -40,3 +41,6 @@ export type Priority = 'low' | 'medium' | 'urgent';
 
 export const priorityColor = (p: Priority | null | undefined) =>
   p === 'urgent' ? Brand.urgent : p === 'medium' ? Brand.medium : Brand.low;
+
+export const PIN_COLOURS = { urgent: Brand.urgent, medium: Brand.medium, overdue: Brand.overdue, ok: Brand.low } as const;
+export const PIN_LABELS = { urgent: 'Urgent', medium: 'Medium priority', overdue: 'Overdue / never visited', ok: 'Up to date' } as const;

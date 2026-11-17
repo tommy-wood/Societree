@@ -70,6 +70,7 @@ function RootStack() {
         <Stack.Screen name="account" options={{ title: 'Your account', presentation: 'modal' }} />
         <Stack.Screen name="site/[id]/index" options={{ title: '', headerBackTitle: 'Back' }} />
         <Stack.Screen name="site/[id]/edit" options={{ title: 'Edit site', presentation: 'modal' }} />
+        <Stack.Screen name="site/[id]/location" options={{ title: 'Set location' }} />
         <Stack.Screen name="log-visit" options={{ title: 'Log a visit', presentation: 'modal' }} />
         <Stack.Screen name="stock/new" options={{ title: 'Add stock item', presentation: 'modal' }} />
         <Stack.Screen name="stock/[id]" options={{ title: 'Edit stock item', presentation: 'modal' }} />

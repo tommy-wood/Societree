@@ -3,15 +3,22 @@ import { useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
 import { EmptyState } from '@/components/sites';
-import { Button, Message, Screen } from '@/components/ui';
+import { Button, Message, Screen, SectionTitle } from '@/components/ui';
 import { Brand, useColors } from '@/constants/theme';
 import { useData, useRefreshOnFocus, type StockItem } from '@/lib/data';
 import { isLowStock } from '@/lib/logic';
 import { supabase } from '@/lib/supabase';
 
+type Category = 'material' | 'tool';
+const CATEGORY_LABEL: Record<Category, string> = { material: 'Materials', tool: 'Tools & equipment' };
+
+const byLowThenName = (a: StockItem, b: StockItem) =>
+  Number(isLowStock(b)) - Number(isLowStock(a)) || a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+
 export default function Stock() {
   const c = useColors();
   const { loading, error: loadError, stock, reload, patchStock } = useData();
+  const [show, setShow] = useState<'all' | Category>('all');
   const [lowOnly, setLowOnly] = useState(false);
   const [error, setError] = useState('');
   // One request at a time per item, so quick taps are saved in order.
@@ -33,61 +40,86 @@ export default function Stock() {
     });
   }
 
-  const lowCount = stock.filter(isLowStock).length;
-  const list = stock
-    .filter((i) => !lowOnly || isLowStock(i))
-    .sort((a, b) => Number(isLowStock(b)) - Number(isLowStock(a)) || a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+  const inCategory = (cat: Category) => stock.filter((i) => (i.category as Category) === cat);
+  const visible = (cat: Category) => inCategory(cat).filter((i) => !lowOnly || isLowStock(i)).sort(byLowThenName);
+  const lowCount = stock.filter((i) => (show === 'all' || i.category === show) && isLowStock(i)).length;
+  const sections: Category[] = show === 'all' ? ['material', 'tool'] : [show];
+
+  const renderItem = (i: StockItem) => {
+    const low = isLowStock(i);
+    const details = [i.kept_at, i.low_at ? `low at ${i.low_at}` : '', i.unit].filter(Boolean).join(' · ');
+    return (
+      <View
+        key={i.id}
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+          borderWidth: 1,
+          borderColor: low ? Brand.urgent : c.line,
+          backgroundColor: c.card,
+          borderRadius: 14,
+          paddingVertical: 10,
+          paddingLeft: 14,
+          paddingRight: 10,
+          marginBottom: 10,
+        }}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`Edit ${i.name}`}
+          onPress={() => router.push({ pathname: '/stock/[id]', params: { id: i.id } })}
+          style={{ flex: 1, minWidth: 0, paddingVertical: 4 }}>
+          <Text style={{ color: c.ink, fontWeight: '700', fontSize: 16 }}>
+            {i.name}
+            {low ? <Text style={{ color: Brand.urgent, fontWeight: '600', fontSize: 13 }}>  Low</Text> : null}
+          </Text>
+          {details ? <Text style={{ color: c.muted, fontSize: 14 }}>{details}</Text> : null}
+        </Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <QtyButton label="−" a11y={`One fewer ${i.name}`} disabled={i.quantity === 0} onPress={() => change(i, -1)} />
+          <Text accessibilityLabel={`${i.quantity} ${i.unit}`} style={{ color: low ? Brand.urgent : c.ink, fontWeight: '700', fontSize: 18, minWidth: 34, textAlign: 'center' }}>
+            {i.quantity}
+          </Text>
+          <QtyButton label="+" a11y={`One more ${i.name}`} onPress={() => change(i, 1)} />
+        </View>
+      </View>
+    );
+  };
 
   return (
     <Screen onRefresh={() => reload(true)}>
+      <View accessibilityRole="tablist" style={{ flexDirection: 'row', gap: 8, marginBottom: 8 }}>
+        {(['all', 'material', 'tool'] as const).map((k) => (
+          <Button
+            key={k}
+            style={{ flex: k === 'all' ? 0.7 : 1 }}
+            size="small"
+            variant={show === k ? 'primary' : 'ghost'}
+            title={k === 'all' ? `All (${stock.length})` : `${k === 'tool' ? 'Tools' : 'Materials'} (${inCategory(k).length})`}
+            onPress={() => setShow(k)}
+          />
+        ))}
+      </View>
       <View style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
-        <Button style={{ flex: 1 }} size="small" variant={lowOnly ? 'ghost' : 'primary'} title={`All (${stock.length})`} onPress={() => setLowOnly(false)} />
-        <Button style={{ flex: 1 }} size="small" variant={lowOnly ? 'primary' : 'ghost'} title={`Low (${lowCount})`} onPress={() => setLowOnly(true)} />
-        <Button style={{ flex: 1 }} size="small" variant="ghost" title="+ Item" onPress={() => router.push('/stock/new')} />
+        <Button style={{ flex: 1 }} size="small" variant={lowOnly ? 'primary' : 'ghost'} title={lowOnly ? `Showing low only (${lowCount})` : `Low only (${lowCount})`} onPress={() => setLowOnly(!lowOnly)} />
+        <Button
+          style={{ flex: 1 }}
+          size="small"
+          variant="ghost"
+          title="+ Item"
+          onPress={() => router.push({ pathname: '/stock/new', params: show === 'all' ? {} : { category: show } })}
+        />
       </View>
       {loadError || error ? <Message tone="error">{error || loadError}</Message> : null}
       {loading ? (
         <ActivityIndicator color={c.accent} style={{ marginTop: 40 }} />
-      ) : list.length === 0 ? (
-        <EmptyState>{lowOnly ? 'Nothing is running low 🎉' : 'No stock items yet'}</EmptyState>
       ) : (
-        list.map((i) => {
-          const low = isLowStock(i);
-          const details = [i.kept_at, i.low_at ? `low at ${i.low_at}` : '', i.unit].filter(Boolean).join(' · ');
+        sections.map((cat) => {
+          const items = visible(cat);
           return (
-            <View
-              key={i.id}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 12,
-                borderWidth: 1,
-                borderColor: low ? Brand.urgent : c.line,
-                backgroundColor: c.card,
-                borderRadius: 14,
-                paddingVertical: 10,
-                paddingLeft: 14,
-                paddingRight: 10,
-                marginBottom: 10,
-              }}>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`Edit ${i.name}`}
-                onPress={() => router.push({ pathname: '/stock/[id]', params: { id: i.id } })}
-                style={{ flex: 1, minWidth: 0, paddingVertical: 4 }}>
-                <Text style={{ color: c.ink, fontWeight: '700', fontSize: 16 }}>
-                  {i.name}
-                  {low ? <Text style={{ color: Brand.urgent, fontWeight: '600', fontSize: 13 }}>  Low</Text> : null}
-                </Text>
-                {details ? <Text style={{ color: c.muted, fontSize: 14 }}>{details}</Text> : null}
-              </Pressable>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                <QtyButton label="−" a11y={`One fewer ${i.name}`} disabled={i.quantity === 0} onPress={() => change(i, -1)} />
-                <Text accessibilityLabel={`${i.quantity} ${i.unit}`} style={{ color: low ? Brand.urgent : c.ink, fontWeight: '700', fontSize: 18, minWidth: 34, textAlign: 'center' }}>
-                  {i.quantity}
-                </Text>
-                <QtyButton label="+" a11y={`One more ${i.name}`} onPress={() => change(i, 1)} />
-              </View>
+            <View key={cat}>
+              {show === 'all' ? <SectionTitle>{`${CATEGORY_LABEL[cat]} (${items.length})`}</SectionTitle> : null}
+              {items.length ? items.map(renderItem) : <EmptyState>{lowOnly ? 'Nothing is running low 🎉' : 'No items yet'}</EmptyState>}
             </View>
           );
         })

@@ -11,7 +11,9 @@ import {
   isLowStock,
   isOverdue,
   isValidISODate,
+  isValidLatLng,
   needsAttention,
+  pinStatus,
   score,
   todayISO,
   visitedText,
@@ -77,4 +79,15 @@ test('dates', () => {
 test('directions use GPS when known, otherwise name and address', () => {
   assert.match(directionsUrl({ name: 'Leigham', address: '', lat: null, lng: null }), /query=Leigham%20Plymouth$/);
   assert.match(directionsUrl({ name: 'X', address: '', lat: 50.4, lng: -4.1 }), /query=50\.4%2C-4\.1$/);
+});
+
+test('pin colours: urgent and medium win, then overdue, else ok', () => {
+  assert.equal(pinStatus({ priority: 'urgent', last_visit: '2026-11-16' }, 35, now), 'urgent');
+  assert.equal(pinStatus({ priority: 'medium', last_visit: '2026-11-16' }, 35, now), 'medium'); // visited last week, still orange
+  assert.equal(pinStatus({ priority: 'medium', last_visit: null }, 35, now), 'medium');
+  assert.equal(pinStatus({ priority: 'low', last_visit: '2026-09-01' }, 35, now), 'overdue');
+  assert.equal(pinStatus({ priority: null, last_visit: null }, 35, now), 'overdue');
+  assert.equal(pinStatus({ priority: 'low', last_visit: '2026-11-10' }, 35, now), 'ok');
+  assert.equal(isValidLatLng(50.37, -4.14), true);
+  assert.equal(isValidLatLng(NaN, 0), false);
 });

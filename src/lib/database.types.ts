@@ -99,14 +99,14 @@ isOneToOne: false
                   ]
                 },"stock_items": {
                   Row: {
-                    "created_at": string,"id": string,"kept_at": string,"low_at": number,"name": string,"notes": string,"quantity": number,"unit": string,"updated_at": string
+                    "category": string,"created_at": string,"id": string,"kept_at": string,"low_at": number,"name": string,"notes": string,"quantity": number,"unit": string,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id"?: string,"kept_at"?: string,"low_at"?: number,"name": string,"notes"?: string,"quantity"?: number,"unit"?: string,"updated_at"?: string
+                    "category"?: string,"created_at"?: string,"id"?: string,"kept_at"?: string,"low_at"?: number,"name": string,"notes"?: string,"quantity"?: number,"unit"?: string,"updated_at"?: string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"kept_at"?: string,"low_at"?: number,"name"?: string,"notes"?: string,"quantity"?: number,"unit"?: string,"updated_at"?: string
+                    "category"?: string,"created_at"?: string,"id"?: string,"kept_at"?: string,"low_at"?: number,"name"?: string,"notes"?: string,"quantity"?: number,"unit"?: string,"updated_at"?: string
                   }
                   Relationships: [
                     

@@ -1,5 +1,8 @@
+import { useLocalSearchParams } from 'expo-router';
+
 import { StockForm } from '@/components/stock-form';
 
 export default function NewStockItem() {
-  return <StockForm />;
+  const { category } = useLocalSearchParams<{ category?: string }>();
+  return <StockForm defaultCategory={category === 'tool' ? 'tool' : 'material'} />;
 }

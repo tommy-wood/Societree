@@ -8,7 +8,7 @@ import { useData, type StockItem } from '@/lib/data';
 import { supabase } from '@/lib/supabase';
 
 /** Add a stock item, or edit one (admins can also delete). */
-export function StockForm({ item }: { item?: StockItem }) {
+export function StockForm({ item, defaultCategory = 'material' }: { item?: StockItem; defaultCategory?: 'material' | 'tool' }) {
   const { isAdmin } = useAuth();
   const { reload } = useData();
   const [name, setName] = useState(item?.name ?? '');
@@ -17,6 +17,7 @@ export function StockForm({ item }: { item?: StockItem }) {
   const [unit, setUnit] = useState(item?.unit ?? '');
   const [keptAt, setKeptAt] = useState(item?.kept_at ?? '');
   const [notes, setNotes] = useState(item?.notes ?? '');
+  const [category, setCategory] = useState<'material' | 'tool'>((item?.category as 'material' | 'tool' | undefined) ?? defaultCategory);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,7 +30,7 @@ export function StockForm({ item }: { item?: StockItem }) {
     if (!name.trim()) return setError('Please give the item a name.');
     if (Number.isNaN(q)) return setError('Quantity must be a whole number (0 or more).');
     if (Number.isNaN(l)) return setError('“Low at” must be a whole number. Use 0 for no warning.');
-    const row = { name: name.trim(), quantity: q, low_at: l, unit: unit.trim(), kept_at: keptAt.trim(), notes: notes.trim() };
+    const row = { name: name.trim(), quantity: q, low_at: l, unit: unit.trim(), kept_at: keptAt.trim(), notes: notes.trim(), category };
     setBusy(true);
     const { error: err } = item ? await supabase.from('stock_items').update(row).eq('id', item.id) : await supabase.from('stock_items').insert(row);
     setBusy(false);
@@ -52,6 +53,10 @@ export function StockForm({ item }: { item?: StockItem }) {
   return (
     <Screen>
       <Field label="Name" value={name} onChangeText={setName} placeholder="e.g. Tree ties" />
+      <View accessibilityRole="radiogroup" style={{ flexDirection: 'row', gap: 8, marginBottom: 12 }}>
+        <Button style={{ flex: 1 }} size="small" variant={category === 'material' ? 'primary' : 'ghost'} title="Material" onPress={() => setCategory('material')} />
+        <Button style={{ flex: 1 }} size="small" variant={category === 'tool' ? 'primary' : 'ghost'} title="Tool / equipment" onPress={() => setCategory('tool')} />
+      </View>
       <View style={{ flexDirection: 'row', gap: 12 }}>
         <View style={{ flex: 1 }}>
           <Field label="Quantity" value={quantity} onChangeText={setQuantity} keyboardType="number-pad" inputMode="numeric" />

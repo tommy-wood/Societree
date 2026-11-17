@@ -126,6 +126,15 @@ export default function SiteDetail() {
               {site.contact_email}
             </Text>
           ) : null}
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push({ pathname: '/site/[id]/location', params: { id: site.id } })}
+            hitSlop={6}
+            style={{ marginTop: 6, alignSelf: 'flex-start' }}>
+            <Text style={{ color: c.accent, fontWeight: '600' }}>
+              {site.lat != null && site.lng != null ? '📍 On the map · change location' : '📍 Not on the map yet · set location'}
+            </Text>
+          </Pressable>
           {site.notes ? <Text style={{ color: c.ink, marginTop: 8, lineHeight: 21 }}>{site.notes}</Text> : null}
           <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
             <Button style={{ flex: 1 }} title="+ Log visit" onPress={() => router.push({ pathname: '/log-visit', params: { siteId: site.id } })} />

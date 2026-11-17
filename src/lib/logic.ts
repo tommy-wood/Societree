@@ -81,3 +81,17 @@ export function directionsUrl(site: { name: string; address: string; lat: number
   const query = site.lat != null && site.lng != null ? `${site.lat},${site.lng}` : `${site.name} ${site.address || 'Plymouth'}`.trim();
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
+
+export type PinStatus = 'urgent' | 'medium' | 'overdue' | 'ok';
+
+/** Map pin colour: urgent and medium always show as such (even if visited recently), then overdue, else fine. */
+export function pinStatus(site: SiteLike, overdueDays = DEFAULT_OVERDUE_DAYS, now?: Date): PinStatus {
+  if (site.priority === 'urgent') return 'urgent';
+  if (site.priority === 'medium') return 'medium';
+  if (isOverdue(site, overdueDays, now)) return 'overdue';
+  return 'ok';
+}
+
+export function isValidLatLng(lat: number, lng: number): boolean {
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+}

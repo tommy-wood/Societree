@@ -46,6 +46,12 @@
           "cameraPermission": "Societree uses the camera so you can take photos of the forest on a visit.",
           "microphonePermission": false
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Societree uses your location to put forests on the map and show where you are."
+        }
       ]
     ],
     "experiments": {

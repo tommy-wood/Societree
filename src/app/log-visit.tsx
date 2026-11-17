@@ -11,6 +11,7 @@ import { Brand, priorityColor, useColors, type Priority } from '@/constants/them
 import { useAuth } from '@/lib/auth';
 import { useData } from '@/lib/data';
 import { addDaysISO, formatDate, isValidISODate, todayISO } from '@/lib/logic';
+import { currentPosition, saveSiteLocation } from '@/lib/geo';
 import { compressPhoto, uploadVisitPhoto } from '@/lib/photos';
 import { supabase } from '@/lib/supabase';
 
@@ -40,6 +41,7 @@ export default function LogVisit() {
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
   const [savedWithProblems, setSavedWithProblems] = useState(false);
+  const [setHere, setSetHere] = useState(false);
 
   const effectivePriority: Priority = priority ?? ((site?.priority as Priority | null) || 'low');
   const today = todayISO();
@@ -89,6 +91,15 @@ export default function LogVisit() {
       return setError('Couldn’t save the visit. Check your signal and try again. Nothing was lost: your notes are still here.');
     }
 
+    const problems: string[] = [];
+    if (setHere) {
+      setStatus('Getting your location…');
+      const r = await currentPosition();
+      const saved = r.ok ? await saveSiteLocation(siteId, r.pos) : null;
+      if (!r.ok) problems.push(`the site location wasn’t set (${r.error})`);
+      else if (saved?.error) problems.push('the site location couldn’t be saved');
+    }
+
     let failed = 0;
     for (let i = 0; i < photos.length; i++) {
       setStatus(`Uploading photo ${i + 1} of ${photos.length}…`);
@@ -100,9 +111,10 @@ export default function LogVisit() {
     }
     setStatus('');
     await reload(true);
-    if (failed) {
+    if (failed) problems.push(`${failed} photo${failed > 1 ? 's' : ''} didn’t upload (you can add them by logging another visit later)`);
+    if (problems.length) {
       setSavedWithProblems(true);
-      setError(`The visit was saved, but ${failed} photo${failed > 1 ? 's' : ''} didn’t upload. You can add them by logging another visit later.`);
+      setError(`The visit was saved, but ${problems.join(', and ')}.`);
       return;
     }
     router.back();
@@ -198,6 +210,34 @@ export default function LogVisit() {
         <Message>That’s the maximum of {MAX_PHOTOS} photos for one visit.</Message>
       )}
 
+      {site ? (
+        <Pressable
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: setHere }}
+          onPress={() => setSetHere(!setHere)}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, marginBottom: 8 }}>
+          <View
+            style={{
+              width: 24,
+              height: 24,
+              borderRadius: 6,
+              borderWidth: 2,
+              borderColor: setHere ? c.accent : c.muted,
+              backgroundColor: setHere ? c.accent : 'transparent',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {setHere ? <Text style={{ color: c.accentInk, fontWeight: '900', fontSize: 14 }}>✓</Text> : null}
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: c.ink, fontSize: 16 }}>📍 {site.lat != null ? 'Update' : 'Set'} this forest’s location to where I am now</Text>
+            <Text style={{ color: c.muted, fontSize: 13 }}>
+              {site.lat != null ? 'Only if the pin on the map is wrong.' : 'It’s not on the map yet. Tick this if you’re at the forest.'}
+            </Text>
+          </View>
+        </Pressable>
+      ) : null}
+
       {error ? <Message tone="error">{error}</Message> : null}
       {status ? <Message>{status}</Message> : null}
       {savedWithProblems ? <Button title="Close" onPress={() => router.back()} /> : <Button title="Save visit" onPress={save} busy={saving} disabled={preparing} />}
@@ -208,6 +248,7 @@ export default function LogVisit() {
           onPick={(id) => {
             setSiteId(id);
             setPriority(null);
+            setSetHere(false);
             setPicking(false);
           }}
           onClose={() => setPicking(false)}
