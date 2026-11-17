@@ -50,6 +50,7 @@ jobs:
           node scripts/seed.mjs
           node scripts/test-rls.mjs
           node scripts/test-timesheets.mjs
+          node scripts/test-invites.mjs
       - name: Seed SQL is up to date with the seed JSON
         run: |
           node scripts/make-seed-sql.mjs

@@ -56,7 +56,8 @@
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "seed:sql": "node scripts/make-seed-sql.mjs",
     "test": "node --test src/lib/*.test.ts",
-    "test:timesheets": "node --env-file-if-exists=.env.local scripts/test-timesheets.mjs"
+    "test:timesheets": "node --env-file-if-exists=.env.local scripts/test-timesheets.mjs",
+    "test:invites": "node --env-file-if-exists=.env.local scripts/test-invites.mjs"
   },
   "private": true
 }

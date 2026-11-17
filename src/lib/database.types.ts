@@ -97,6 +97,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"invites": {
+                  Row: {
+                    "can_sign_off": boolean,"created_at": string,"email": string,"hourly_rate": number | null,"invited_by": string | null,"name": string,"role": string,"used_at": string | null,"used_by": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "can_sign_off"?: boolean,"created_at"?: string,"email": string,"hourly_rate"?: number | null,"invited_by"?: string | null,"name"?: string,"role"?: string,"used_at"?: string | null,"used_by"?: string | null
+                  }
+                  Update: {
+                    "can_sign_off"?: boolean,"created_at"?: string,"email"?: string,"hourly_rate"?: number | null,"invited_by"?: string | null,"name"?: string,"role"?: string,"used_at"?: string | null,"used_by"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "invites_invited_by_fkey"
+      columns: ["invited_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "invites_used_by_fkey"
+      columns: ["used_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"invoices": {
                   Row: {
                     "approved_at": string | null,"approved_by": string | null,"contractor": NonNullable<Json>,"hourly_rate": number,"hours": number,"id": string,"labour_total": number,"lines": NonNullable<Json>,"materials_total": number,"mileage_rate": number,"mileage_total": number,"miles": number,"month": string,"number": string,"paid_at": string | null,"returned_reason": string | null,"status": string,"submitted_at": string,"total": number,"user_id": string
@@ -275,7 +301,10 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "is_admin":
+            "apply_invite":
+{ Args: { "p_email": string,"p_user": string }; Returns: undefined
+                           },
+"is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "is_finance":

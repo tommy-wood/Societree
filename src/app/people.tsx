@@ -2,6 +2,7 @@ import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
+import { Invites } from '@/components/invites';
 import { Button, Card, Message, Screen, SectionTitle } from '@/components/ui';
 import { Brand, useColors } from '@/constants/theme';
 import { useAuth, type Profile, type Role } from '@/lib/auth';
@@ -131,6 +132,8 @@ export default function People() {
           </Card>
         );
       })}
+
+      <Invites onChange={load} />
 
       {legacy.length > 0 && (
         <>
