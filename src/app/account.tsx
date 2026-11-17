@@ -9,7 +9,7 @@ import { supabase } from '@/lib/supabase';
 
 export default function Account() {
   const c = useColors();
-  const { profile, session, isAdmin, refreshProfile, signOut } = useAuth();
+  const { profile, session, isAdmin, isFinance, refreshProfile, signOut } = useAuth();
   const [name, setName] = useState(profile?.name ?? '');
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ tone: 'error' | 'success'; text: string } | null>(null);
@@ -31,13 +31,23 @@ export default function Account() {
       <Card>
         <Text style={{ color: c.muted }}>Signed in as</Text>
         <Text style={{ color: c.ink, fontSize: 16, fontWeight: '600' }}>{session?.user.email}</Text>
-        <Text style={{ color: c.muted, marginTop: 4 }}>{isAdmin ? 'Admin' : 'Volunteer'}</Text>
+        <Text style={{ color: c.muted, marginTop: 4 }}>
+          {isAdmin ? 'Admin' : 'Volunteer'}
+          {isFinance ? ' · signs off invoices' : ''}
+        </Text>
       </Card>
 
       <SectionTitle>Your name</SectionTitle>
       <Field label="Shown on the visits you log" value={name} onChangeText={setName} autoComplete="name" onSubmitEditing={saveName} />
       {msg ? <Message tone={msg.tone}>{msg.text}</Message> : null}
       <Button title="Save name" onPress={saveName} busy={busy} disabled={name.trim() === (profile?.name ?? '')} />
+
+      {isFinance ? (
+        <>
+          <SectionTitle>Invoices</SectionTitle>
+          <Button title="Team invoices" variant="ghost" onPress={() => router.push('/team')} />
+        </>
+      ) : null}
 
       {isAdmin && (
         <>

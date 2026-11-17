@@ -38,6 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen name="sites" options={{ title: 'Sites', tabBarIcon: icon('📍') }} />
       <Tabs.Screen name="map" options={{ title: 'Map', tabBarIcon: icon('🗺️') }} />
       <Tabs.Screen name="stock" options={{ title: 'Stock', tabBarIcon: icon('📦') }} />
+      <Tabs.Screen name="hours" options={{ title: 'Hours', tabBarIcon: icon('⏱️') }} />
     </Tabs>
   );
 }

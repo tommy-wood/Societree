@@ -1,6 +1,6 @@
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 
 import { Button, Card, Message, Screen, SectionTitle } from '@/components/ui';
 import { Brand, useColors } from '@/constants/theme';
@@ -45,6 +45,15 @@ export default function People() {
     load();
   }
 
+  async function setSignOff(p: Profile, value: boolean) {
+    setError('');
+    setBusyId(p.id);
+    const { error: err } = await supabase.from('profiles').update({ can_sign_off: value }).eq('id', p.id);
+    setBusyId(null);
+    if (err) setError('Couldn’t change that, please try again.');
+    load();
+  }
+
   async function link(name: string, profileId: string) {
     setError('');
     setBusyId(profileId);
@@ -69,6 +78,7 @@ export default function People() {
   return (
     <Screen>
       {error ? <Message tone="error">{error}</Message> : null}
+      <Button variant="ghost" title="Hourly rates for contractors" onPress={() => router.push('/rates')} />
       <SectionTitle>{pendingCount ? `Waiting for approval (${pendingCount})` : 'People'}</SectionTitle>
       {people.map((p) => {
         const self = p.id === me?.id;
@@ -82,6 +92,30 @@ export default function People() {
               </Text>
               <RoleChip role={p.role} />
             </View>
+            {p.role !== 'pending' ? (
+              <Pressable
+                accessibilityRole="switch"
+                accessibilityLabel={`${p.name || 'No name'} signs off invoices`}
+                accessibilityState={{ checked: p.can_sign_off }}
+                disabled={busy}
+                onPress={() => setSignOff(p, !p.can_sign_off)}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 10 }}>
+                <View
+                  style={{
+                    width: 22,
+                    height: 22,
+                    borderRadius: 6,
+                    borderWidth: 2,
+                    borderColor: p.can_sign_off ? c.accent : c.muted,
+                    backgroundColor: p.can_sign_off ? c.accent : 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {p.can_sign_off ? <Text style={{ color: c.accentInk, fontWeight: '900', fontSize: 13 }}>✓</Text> : null}
+                </View>
+                <Text style={{ color: c.ink }}>Signs off invoices (sees everyone’s hours and bank details)</Text>
+              </Pressable>
+            ) : null}
             {!self && (
               <View style={{ flexDirection: 'row', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
                 {p.role === 'pending' && <Button size="small" title="Approve" busy={busy} onPress={() => setRole(p, 'volunteer')} />}

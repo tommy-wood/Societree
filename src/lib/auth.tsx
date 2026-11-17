@@ -16,6 +16,8 @@ type AuthState = {
   role: Role | null;
   isMember: boolean;
   isAdmin: boolean;
+  /** Can see everyone's hours and sign off invoices. */
+  isFinance: boolean;
   /** Set when the user arrived from a password-reset email. */
   recovering: boolean;
   refreshProfile: () => Promise<void>;
@@ -99,6 +101,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       role,
       isMember: role === 'admin' || role === 'volunteer',
       isAdmin: role === 'admin',
+      isFinance: (role === 'admin' || role === 'volunteer') && !!profile?.can_sign_off,
       recovering,
       refreshProfile: () => loadProfile(session?.user.id),
       finishRecovery: () => {

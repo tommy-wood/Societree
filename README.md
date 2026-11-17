@@ -16,6 +16,7 @@ src/lib/database.types.ts  generated from the schema (npm run db:types)
 supabase/migrations/   schema, RLS and storage SQL
 scripts/seed.mjs       loads seed/societree-seed-data.json
 scripts/test-rls.mjs   permission checks (local Supabase only)
+scripts/test-timesheets.mjs  hours and invoice rules (local Supabase only)
 src/lib/logic.ts       overdue, score and low-stock rules (npm test)
 seed/                  Base44 export (raw CSV + cleaned JSON)
 ```
@@ -53,6 +54,10 @@ People sign in with email and password. The first person to sign up becomes the 
 - The People screen also links names from the old Base44 visits ("Thomas Woodward", "tommysocietree", ...) to real accounts.
 
 In the Supabase dashboard, under **Authentication → URL Configuration**, set the Site URL to the web app's address (for now `http://localhost:8081`). Confirmation and password-reset emails link back there.
+
+## Hours and invoices
+
+Contractors (anyone with an hourly rate) add each day's hours, miles and notes, plus materials they bought, on the **Hours** tab. At month end they review the invoice and send it; the database works out the totals (hours × rate + miles × 45p + materials, no VAT) and locks the month. Whoever is ticked as **Signs off invoices** on the People screen sees every contractor's hours and invoices and can sign off, send back with a note, or mark as paid. Hours, receipts, invoices and bank details are visible only to the contractor and sign-off people. Admins and sign-off people set hourly rates (People → Hourly rates). The mileage rate and the "To" name on invoices are in `app_settings` (`mileage_rate`, `invoice_to`).
 
 ## Web app (PWA) and hosting
 

@@ -16,6 +16,7 @@
     "expo-image-picker": "~58.0.10",
     "expo-linking": "~58.0.17",
     "expo-location": "~58.0.22",
+    "expo-print": "~58.0.9",
     "expo-router": "~58.0.32",
     "expo-splash-screen": "~58.0.14",
     "expo-status-bar": "~58.0.5",
@@ -54,7 +55,8 @@
     "test:rls": "node --env-file-if-exists=.env.local scripts/test-rls.mjs",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "seed:sql": "node scripts/make-seed-sql.mjs",
-    "test": "node --test src/lib/*.test.ts"
+    "test": "node --test src/lib/*.test.ts",
+    "test:timesheets": "node --env-file-if-exists=.env.local scripts/test-timesheets.mjs"
   },
   "private": true
 }

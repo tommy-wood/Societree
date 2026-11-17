@@ -37,6 +37,92 @@ export type Database = {
                   Relationships: [
                     
                   ]
+                },"contractor_details": {
+                  Row: {
+                    "address": string,"bank_account_name": string,"bank_account_number": string,"bank_sort_code": string,"email": string,"invoice_name": string,"phone": string,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "address"?: string,"bank_account_name"?: string,"bank_account_number"?: string,"bank_sort_code"?: string,"email"?: string,"invoice_name"?: string,"phone"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "address"?: string,"bank_account_name"?: string,"bank_account_number"?: string,"bank_sort_code"?: string,"email"?: string,"invoice_name"?: string,"phone"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "contractor_details_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"contractor_rates": {
+                  Row: {
+                    "hourly_rate": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "hourly_rate": number,"updated_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "hourly_rate"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "contractor_rates_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: true
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"expenses": {
+                  Row: {
+                    "amount": number,"created_at": string,"date": string,"description": string,"id": string,"receipt_path": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "amount": number,"created_at"?: string,"date": string,"description": string,"id"?: string,"receipt_path"?: string | null,"user_id"?: string
+                  }
+                  Update: {
+                    "amount"?: number,"created_at"?: string,"date"?: string,"description"?: string,"id"?: string,"receipt_path"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "expenses_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"invoices": {
+                  Row: {
+                    "approved_at": string | null,"approved_by": string | null,"contractor": NonNullable<Json>,"hourly_rate": number,"hours": number,"id": string,"labour_total": number,"lines": NonNullable<Json>,"materials_total": number,"mileage_rate": number,"mileage_total": number,"miles": number,"month": string,"number": string,"paid_at": string | null,"returned_reason": string | null,"status": string,"submitted_at": string,"total": number,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "approved_at"?: string | null,"approved_by"?: string | null,"contractor": NonNullable<Json>,"hourly_rate": number,"hours": number,"id"?: string,"labour_total": number,"lines": NonNullable<Json>,"materials_total": number,"mileage_rate": number,"mileage_total": number,"miles": number,"month": string,"number": string,"paid_at"?: string | null,"returned_reason"?: string | null,"status": string,"submitted_at"?: string,"total": number,"user_id": string
+                  }
+                  Update: {
+                    "approved_at"?: string | null,"approved_by"?: string | null,"contractor"?: NonNullable<Json>,"hourly_rate"?: number,"hours"?: number,"id"?: string,"labour_total"?: number,"lines"?: NonNullable<Json>,"materials_total"?: number,"mileage_rate"?: number,"mileage_total"?: number,"miles"?: number,"month"?: string,"number"?: string,"paid_at"?: string | null,"returned_reason"?: string | null,"status"?: string,"submitted_at"?: string,"total"?: number,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "invoices_approved_by_fkey"
+      columns: ["approved_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "invoices_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"jobs": {
                   Row: {
                     "completed_at": string | null,"completed_by": string | null,"created_at": string,"created_by": string | null,"done": boolean,"due_date": string | null,"id": string,"site_id": string,"text": string
@@ -71,14 +157,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "created_at": string,"id": string,"name": string,"role": string
+                    "can_sign_off": boolean,"created_at": string,"id": string,"name": string,"role": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id": string,"name"?: string,"role"?: string
+                    "can_sign_off"?: boolean,"created_at"?: string,"id": string,"name"?: string,"role"?: string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"name"?: string,"role"?: string
+                    "can_sign_off"?: boolean,"created_at"?: string,"id"?: string,"name"?: string,"role"?: string
                   }
                   Relationships: [
                     
@@ -163,6 +249,26 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"work_days": {
+                  Row: {
+                    "created_at": string,"date": string,"description": string,"hours": number,"id": string,"miles": number,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"date": string,"description"?: string,"hours": number,"id"?: string,"miles"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"date"?: string,"description"?: string,"hours"?: number,"id"?: string,"miles"?: number,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "work_days_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 }
           }
           Views: {
@@ -172,14 +278,29 @@ isOneToOne: false
             "is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"is_finance":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
 "is_member":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
 "link_legacy_visits":
 { Args: { "p_legacy_name": string,"p_profile_id": string }; Returns: number
                            },
+"month_is_locked":
+{ Args: { "p_date": string,"p_user": string }; Returns: boolean
+                           },
 "recompute_site_from_visits":
 { Args: { "p_site_id": string }; Returns: undefined
+                           },
+"review_invoice":
+{ Args: { "p_action": string,"p_id": string,"p_reason"?: string }; Returns: undefined
+                           },
+"submit_invoice":
+{ Args: { "p_month": string }; Returns: string
+                           },
+"withdraw_invoice":
+{ Args: { "p_id": string }; Returns: undefined
                            }
           }
           Enums: {

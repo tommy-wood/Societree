@@ -31,7 +31,7 @@ export default function RootLayout() {
 }
 
 function RootStack() {
-  const { loading, session, isMember, isAdmin, recovering } = useAuth();
+  const { loading, session, isMember, isAdmin, isFinance, recovering } = useAuth();
   const userId = session?.user.id ?? 'none';
 
   useEffect(() => {
@@ -74,6 +74,16 @@ function RootStack() {
         <Stack.Screen name="log-visit" options={{ title: 'Log a visit', presentation: 'modal' }} />
         <Stack.Screen name="stock/new" options={{ title: 'Add stock item', presentation: 'modal' }} />
         <Stack.Screen name="stock/[id]" options={{ title: 'Edit stock item', presentation: 'modal' }} />
+        <Stack.Screen name="hours/day" options={{ title: 'Add a day', presentation: 'modal' }} />
+        <Stack.Screen name="hours/material" options={{ title: 'Add materials', presentation: 'modal' }} />
+        <Stack.Screen name="hours/invoice" options={{ title: 'Invoice' }} />
+        <Stack.Screen name="hours/details" options={{ title: 'Your invoice details' }} />
+        <Stack.Protected guard={isFinance}>
+          <Stack.Screen name="team" options={{ title: 'Team invoices' }} />
+        </Stack.Protected>
+        <Stack.Protected guard={isAdmin || isFinance}>
+          <Stack.Screen name="rates" options={{ title: 'Hourly rates' }} />
+        </Stack.Protected>
         <Stack.Protected guard={isAdmin}>
           <Stack.Screen name="people" options={{ title: 'People' }} />
           <Stack.Screen name="site/new" options={{ title: 'Add a site', presentation: 'modal' }} />
