@@ -1,0 +1,651 @@
+{
+  "exported": "2026-11-17",
+  "source": "Base44 CSV export (societree-records-2026-11-17.csv)",
+  "sites": [
+    {
+      "id": "beaumont-park",
+      "name": "Beaumont park",
+      "address": "PL4",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "medium",
+      "csv_date": "2026-11-17",
+      "last_visit": "2026-11-05"
+    },
+    {
+      "id": "manor-primary",
+      "name": "Manor Primary",
+      "address": "Ivybridge, Devon",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "urgent",
+      "csv_date": "2026-10-22",
+      "last_visit": "2026-10-22"
+    },
+    {
+      "id": "dartmoor-zoo",
+      "name": "Dartmoor zoo",
+      "address": "Plymouth PL7 5DG",
+      "contact": "",
+      "contact_email": "zoobase@dartmoorzoo.co.uk",
+      "notes": "Welding gloves. Nail gun and basic tools kept at site",
+      "priority": "low",
+      "csv_date": "2026-09-16",
+      "last_visit": "2026-09-16"
+    },
+    {
+      "id": "marine-academy",
+      "name": "Marine Academy",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "medium",
+      "csv_date": "2026-10-08",
+      "last_visit": "2026-10-08"
+    },
+    {
+      "id": "st-matthew-s",
+      "name": "St Matthew's",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-04",
+      "last_visit": "2026-11-04"
+    },
+    {
+      "id": "manadon-vale",
+      "name": "Manadon Vale",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-10-08",
+      "last_visit": "2026-10-08"
+    },
+    {
+      "id": "plaistow",
+      "name": "Plaistow",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "medium",
+      "csv_date": "2026-10-21",
+      "last_visit": "2026-10-21"
+    },
+    {
+      "id": "oreston",
+      "name": "Oreston",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-03",
+      "last_visit": "2026-11-03"
+    },
+    {
+      "id": "sherford",
+      "name": "Sherford",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-10-21",
+      "last_visit": "2026-10-21"
+    },
+    {
+      "id": "ymca",
+      "name": "YMCA",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-10-21",
+      "last_visit": "2026-10-21"
+    },
+    {
+      "id": "monkerton",
+      "name": "Monkerton",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "",
+      "csv_date": "",
+      "last_visit": ""
+    },
+    {
+      "id": "mount-street",
+      "name": "Mount Street",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "",
+      "csv_date": "",
+      "last_visit": ""
+    },
+    {
+      "id": "mountwise",
+      "name": "Mountwise",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-10-06",
+      "last_visit": "2026-10-06"
+    },
+    {
+      "id": "st-joseph-s",
+      "name": "St Joseph's",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "",
+      "csv_date": "",
+      "last_visit": ""
+    },
+    {
+      "id": "st-paul-s",
+      "name": "St Paul's",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-11",
+      "last_visit": "2026-11-11"
+    },
+    {
+      "id": "leigham",
+      "name": "Leigham",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "urgent",
+      "csv_date": "2026-10-15",
+      "last_visit": "2026-10-15"
+    },
+    {
+      "id": "marlborough",
+      "name": "Marlborough",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-04",
+      "last_visit": "2026-11-04"
+    },
+    {
+      "id": "old-priory",
+      "name": "Old Priory",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-04",
+      "last_visit": "2026-11-04"
+    },
+    {
+      "id": "wembury",
+      "name": "Wembury",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "",
+      "csv_date": "",
+      "last_visit": ""
+    },
+    {
+      "id": "elburton",
+      "name": "Elburton",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-03",
+      "last_visit": "2026-11-03"
+    },
+    {
+      "id": "lipson-vale",
+      "name": "Lipson Vale",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "",
+      "csv_date": "",
+      "last_visit": ""
+    },
+    {
+      "id": "mary-deans",
+      "name": "Mary Deans",
+      "address": "",
+      "contact": "",
+      "contact_email": "",
+      "notes": "",
+      "priority": "low",
+      "csv_date": "2026-11-05",
+      "last_visit": "2026-11-05"
+    }
+  ],
+  "visits": [
+    {
+      "site_id": "st-paul-s",
+      "date": "2026-11-11",
+      "priority": "low",
+      "work_carried_out": "weeded forest trees healthy more dandelions needs strimming",
+      "notes": "",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 0
+    },
+    {
+      "site_id": "mary-deans",
+      "date": "2026-11-05",
+      "priority": "low",
+      "work_carried_out": "Weeded path and forest, put a new sign in as ours was snapped off.",
+      "notes": "",
+      "logged_by": "Ryan Gaffney",
+      "photo_count": 0
+    },
+    {
+      "site_id": "st-matthew-s",
+      "date": "2026-11-04",
+      "priority": "low",
+      "work_carried_out": "Stabilised fence as it was sagging, weeded path and forest, repositioned logs that had been knocked",
+      "notes": "",
+      "logged_by": "Ryan Gaffney",
+      "photo_count": 0
+    },
+    {
+      "site_id": "marlborough",
+      "date": "2026-11-04",
+      "priority": "low",
+      "work_carried_out": "Weeded long grass on path and forest",
+      "notes": "",
+      "logged_by": "Ryan Gaffney",
+      "photo_count": 0
+    },
+    {
+      "site_id": "beaumont-park",
+      "date": "2026-11-05",
+      "priority": "low",
+      "work_carried_out": "Weeded path and forest",
+      "notes": "",
+      "logged_by": "Ryan Gaffney",
+      "photo_count": 0
+    },
+    {
+      "site_id": "old-priory",
+      "date": "2026-11-04",
+      "priority": "low",
+      "work_carried_out": "Inspection of forest before winter.",
+      "notes": "Forest looking great massive growth observed since last visit. Previous weeding effective at stopping further issues. still a few weeds present but not threatening to the trees.Peripheral trees healthy",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 4
+    },
+    {
+      "site_id": "elburton",
+      "date": "2026-11-03",
+      "priority": "low",
+      "work_carried_out": "carried out hedgerow clearance on top of bank. Checked forest for weeds but looking good. put logs of path and circle back in place",
+      "notes": "",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 7
+    },
+    {
+      "site_id": "oreston",
+      "date": "2026-11-03",
+      "priority": "low",
+      "work_carried_out": "Weeded primarily dandelions and cleared grass from base of trees. Weeded forest and path.",
+      "notes": "Forest looking healthy if not a bit sparse only a few broken trees found. Peripheral trees all looking healthy other than the dogwoods which have been destroyed. Hay top up may be beneficial until canopy develops.",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 14
+    },
+    {
+      "site_id": "manor-primary",
+      "date": "2026-10-22",
+      "priority": "urgent",
+      "work_carried_out": "Updated: 22m of pathway logs.",
+      "notes": "",
+      "logged_by": "Beth Rose",
+      "photo_count": 0
+    },
+    {
+      "site_id": "manor-primary",
+      "date": "2026-10-22",
+      "priority": "urgent",
+      "work_carried_out": "40 round logs. \n16m of pathway logs. \nMulch bagged up - as many as possible - maybe even 100. \nCardboard - 2 bundles",
+      "notes": "",
+      "logged_by": "Beth Rose",
+      "photo_count": 0
+    },
+    {
+      "site_id": "ymca",
+      "date": "2026-10-21",
+      "priority": "low",
+      "work_carried_out": "Dog wood tieback",
+      "notes": "",
+      "logged_by": "tommysocietree",
+      "photo_count": 0
+    },
+    {
+      "site_id": "ymca",
+      "date": "2026-10-21",
+      "priority": "medium",
+      "work_carried_out": "Presence of bindweed",
+      "notes": "",
+      "logged_by": "tommysocietree",
+      "photo_count": 1
+    },
+    {
+      "site_id": "ymca",
+      "date": "2026-10-21",
+      "priority": "low",
+      "work_carried_out": "Litter pick , Weed the circle inspect trees for damage",
+      "notes": "Lots of mushroom growth and healthy looking trees",
+      "logged_by": "tommysocietree",
+      "photo_count": 4
+    },
+    {
+      "site_id": "plaistow",
+      "date": "2026-10-21",
+      "priority": "medium",
+      "work_carried_out": "Peripheral trees 5 dead mix of species see photos attached",
+      "notes": "Replacing needed and strumming required in forest",
+      "logged_by": "tommysocietree",
+      "photo_count": 6
+    },
+    {
+      "site_id": "plaistow",
+      "date": "2026-10-21",
+      "priority": "low",
+      "work_carried_out": "Weeded horses weed between trees growthofforest has exploded some brambles removed and mulch circle cleared of weeds",
+      "notes": "Growth doing well needs a strim in flower border but seems to have survived the summer",
+      "logged_by": "tommysocietree",
+      "photo_count": 5
+    },
+    {
+      "site_id": "sherford",
+      "date": "2026-10-21",
+      "priority": "low",
+      "work_carried_out": "since last visit where the whole forest was cleared of any weeds a massive return has occured this time with grass thistle and dandelion between the trees throughout. log in the circle was dislodged. bindweed suppression from last visit has worked",
+      "notes": "Need a method to suppress weeds especially grass between trees wether that's more hay or something else. peripheral 10 dogwood dead around hut rest of fruit trees thriving",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 5
+    },
+    {
+      "site_id": "st-matthew-s",
+      "date": "2026-09-29",
+      "priority": "medium",
+      "work_carried_out": "Forest weeded, Plenty of trees looking really healthy but some gaps present with no sign of trees there. Brambles cleared and path mulch topped up.",
+      "notes": "Need to tighten fence and top up sections of forest",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 7
+    },
+    {
+      "site_id": "dartmoor-zoo",
+      "date": "2026-09-16",
+      "priority": "low",
+      "work_carried_out": "Lots of weeding trench dug for fencing improvement on gate",
+      "notes": "Forest is doing well. May need to manage weeds",
+      "logged_by": "Titus Jones",
+      "photo_count": 1
+    },
+    {
+      "site_id": "st-paul-s",
+      "date": "2026-09-08",
+      "priority": "low",
+      "work_carried_out": "Mulch circle weeded and topped up, Major forest weeding of dandelions completed. Fence cleared of bindweed and ivy",
+      "notes": "Monitor weed levels and health of peripheral trees",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 4
+    },
+    {
+      "site_id": "mountwise",
+      "date": "2026-10-06",
+      "priority": "low",
+      "work_carried_out": "Cleared ivy and bindweed, strimmed paths and placed more mulch on path. forest looking healthy",
+      "notes": "more mulch needed in circle",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 1
+    },
+    {
+      "site_id": "marine-academy",
+      "date": "2026-10-08",
+      "priority": "medium",
+      "work_carried_out": "Finished weeding of dandelions some trees not survived the summer and weeds potential topping up needed",
+      "notes": "Top up required in small sections of forest",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 5
+    },
+    {
+      "site_id": "manadon-vale",
+      "date": "2026-10-08",
+      "priority": "low",
+      "work_carried_out": "Weeded hay from forest and fixed fence pulled down by kids. Forest looking healthy",
+      "notes": "Brambles in corner need to be cleared but no imminent danger to kids",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 2
+    },
+    {
+      "site_id": "leigham",
+      "date": "2026-10-15",
+      "priority": "urgent",
+      "work_carried_out": "Checked the staking of peripheral trees. 5 appear dead. The forest has been strimmed by someone killing up to 20/30% of trees.",
+      "notes": "Topping up forest with trees required",
+      "logged_by": "Thomas Woodward",
+      "photo_count": 4
+    }
+  ],
+  "stock_items": [
+    {
+      "name": "fork",
+      "quantity": 1,
+      "unit": "item",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "hardhat",
+      "quantity": 2,
+      "unit": "item",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "broom",
+      "quantity": 2,
+      "unit": "item",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "saw",
+      "quantity": 2,
+      "unit": "",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "electric tiller",
+      "quantity": 1,
+      "unit": "item",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "postwacker",
+      "quantity": 1,
+      "unit": "item",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "mattock",
+      "quantity": 1,
+      "unit": "item",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Tree water bags",
+      "quantity": 2,
+      "unit": "",
+      "low_at": 10,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "hoses",
+      "quantity": 7,
+      "unit": "rolls",
+      "low_at": 3,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "wheelbarrows",
+      "quantity": 2,
+      "unit": "barrows",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "water saving gel",
+      "quantity": 1,
+      "unit": "bag",
+      "low_at": 2,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Flags",
+      "quantity": 100,
+      "unit": "",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "tree blocks",
+      "quantity": 50,
+      "unit": "block",
+      "low_at": 20,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "tree ties",
+      "quantity": 9,
+      "unit": "rolls",
+      "low_at": 3,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "water butts",
+      "quantity": 10,
+      "unit": "20 litres",
+      "low_at": 5,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Biochar",
+      "quantity": 0,
+      "unit": "kg",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "spades",
+      "quantity": 5,
+      "unit": "",
+      "low_at": 2,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Cardboard",
+      "quantity": 4,
+      "unit": "20m²",
+      "low_at": 2,
+      "kept_at": "Polytunnel",
+      "notes": "Large sheets for sheet mulching"
+    },
+    {
+      "name": "Wooden paling",
+      "quantity": 45,
+      "unit": "lengths",
+      "low_at": 20,
+      "kept_at": "Van",
+      "notes": "Standard 1.2m"
+    },
+    {
+      "name": "Fence posts",
+      "quantity": 0,
+      "unit": "posts",
+      "low_at": 12,
+      "kept_at": "Store",
+      "notes": "Chestnut, 1.5m"
+    },
+    {
+      "name": "Wood screws",
+      "quantity": 4,
+      "unit": "boxes",
+      "low_at": 1,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Loppers",
+      "quantity": 2,
+      "unit": "each",
+      "low_at": 0,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Hammers",
+      "quantity": 3,
+      "unit": "each",
+      "low_at": 2,
+      "kept_at": "Polytunnel",
+      "notes": ""
+    },
+    {
+      "name": "Work gloves",
+      "quantity": 3,
+      "unit": "pairs",
+      "low_at": 10,
+      "kept_at": "Store",
+      "notes": "Mixed sizes"
+    }
+  ]
+}

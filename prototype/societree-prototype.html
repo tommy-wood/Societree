@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F241C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Societree">
+<title>Societree · Forest Care</title>
+<style>
+:root{--bg:#f3f7f4;--card:#fff;--ink:#14281f;--mut:#5d7066;--line:#dde6e0;--acc:#1f7a4d;--accink:#fff;--urg:#c0392b;--med:#d9822b;--low:#2e8b57;--hdr:#0F241C;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1713;--card:#142720;--ink:#e6efe9;--mut:#93a89c;--line:#223a30;--acc:#3fbf82;--accink:#06140d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c1713;--card:#142720;--ink:#e6efe9;--mut:#93a89c;--line:#223a30;--acc:#3fbf82;--accink:#06140d;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hdr);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--hdr);color:#fff;padding:12px 16px;z-index:11;display:flex;align-items:center;gap:10px}
+header b{font-size:18px}header small{color:#9fb8aa;display:block;font-size:12px}
+header button{margin-left:auto}
+main{max-width:640px;margin:0 auto;padding:14px 14px 150px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px;display:flex;align-items:center;gap:12px}
+.card.col{display:block}.site{cursor:pointer}
+.g{flex:1;min-width:0}small{color:var(--mut);display:block}
+.dot{width:12px;height:12px;border-radius:50%;flex:none;background:var(--low)}.dot.urgent{background:var(--urg)}.dot.medium{background:var(--med)}
+.chip{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--line)}.chip.r{background:var(--urg);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center}
+.st b{display:block;font-size:24px}.st small{font-size:11px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:18px 2px 8px}
+.btn{background:var(--acc);color:var(--accink);border:0;border-radius:12px;padding:10px 16px;font:inherit;font-weight:600}
+.btn.big{width:100%;padding:14px}.btn.ghost{background:transparent;color:var(--acc);border:1px solid var(--line)}.btn.sm{padding:6px 12px;font-size:14px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+nav button{flex:1;background:none;border:0;padding:8px 0;font:inherit;font-size:12px;color:var(--mut)}nav button.on{color:var(--acc);font-weight:700}nav span{display:block;font-size:20px}
+.fab{position:fixed;right:16px;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:21;box-shadow:0 4px 14px #0005;border-radius:99px;padding:14px 20px}
+.ov{position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sh{background:var(--bg);width:100%;max-width:640px;max-height:92%;border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));overflow:auto}
+.sht{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:18px}.sht button{background:none;border:0;color:var(--ink);font-size:20px}
+input,select,textarea{width:100%;font:inherit;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);margin:4px 0 12px}
+label{font-size:13px;color:var(--mut)}textarea{min-height:90px}
+.row{display:flex;gap:8px}.row>*{flex:1}.row input{margin-bottom:0}
+.ph img{width:64px;height:64px;object-fit:cover;border-radius:8px;margin:6px 6px 0 0}
+.qty{display:flex;align-items:center;gap:10px}.qty button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:18px}
+.low .n{color:var(--urg)}.n{font-weight:700;min-width:24px;text-align:center}
+.pills{display:flex;gap:8px;margin-bottom:12px}.pills button{flex:1}
+.back{background:none;border:0;color:var(--acc);font:inherit;padding:0 0 10px;font-weight:600}
+.job{display:flex;gap:10px;align-items:center;padding:6px 0}.job input{width:22px;height:22px;margin:0}.job.d span{text-decoration:line-through;color:var(--mut)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:130px;background:var(--hdr);color:#fff;padding:10px 16px;border-radius:99px;z-index:60}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}
+</style>
+</head>
+<body>
+<header><span style="font-size:26px">🌳</span><div><b>Societree</b><small id="sub">Forest care</small></div></header>
+<main id="main"><div class="empty">Loading…</div></main>
+<button class="btn fab" id="fab">+ Log visit</button>
+<nav><button data-tab="today"><span>🏠</span>Today</button><button data-tab="sites"><span>📍</span>Sites</button><button data-tab="stock"><span>📦</span>Stock</button></nav>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S={sites:[],visits:[],stock:[],jobs:[]};
+let tab='today',cur=null,q='',lowOnly=false,db=null,assets=null,me=null,ready=false,err='';
+const days=d=>d?Math.floor((Date.now()-new Date(d))/864e5):null;
+const today=()=>new Date().toISOString().slice(0,10);
+const fmt=d=>d?new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'never';
+const OVERDUE=35;
+const isOver=s=>{const d=days(s.lastVisit);return d===null||d>OVERDUE};
+const openJobs=id=>S.jobs.filter(j=>j.siteId===id&&!j.done);
+const score=s=>({urgent:300,medium:200}[s.priority]||0)+(isOver(s)?100:0)+openJobs(s.id).length*10+Math.min(days(s.lastVisit)||60,60)/10;
+const needs=s=>s.priority==='urgent'||s.priority==='medium'||isOver(s)||openJobs(s.id).length;
+const isLow=i=>i.low>0&&i.qty<i.low;
+const toast=m=>{const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)};
+const val=(el,n)=>(el.querySelector('[name='+n+']').value||'').trim();
+
+const siteCard=s=>{const d=days(s.lastVisit),oj=openJobs(s.id).length;
+ return `<div class="card site" data-site="${s.id}"><span class="dot ${s.priority||'low'}"></span><div class="g"><b>${esc(s.name)}</b><small>${d===null?'Never visited':'Visited '+fmt(s.lastVisit)+' · '+d+'d ago'}${oj?' · '+oj+' open job'+(oj>1?'s':''):''}</small></div>${s.priority==='urgent'?'<span class="chip r">Urgent</span>':isOver(s)?'<span class="chip">Overdue</span>':''}</div>`};
+
+function todayView(){
+ const ns=S.sites.filter(needs).sort((a,b)=>score(b)-score(a)),low=S.stock.filter(isLow);
+ const urg=S.sites.filter(s=>s.priority==='urgent').length,ov=S.sites.filter(isOver).length,oj=S.jobs.filter(j=>!j.done).length;
+ if(!S.sites.length)return '<div class="empty">No sites yet.<br><br><button class="btn" data-act="addsite">Add your first site</button></div>';
+ return `<div class="stats"><div class="st"><b>${urg}</b><small>Urgent</small></div><div class="st"><b>${ov}</b><small>Overdue</small></div><div class="st"><b>${oj}</b><small>Open jobs</small></div><div class="st"><b>${low.length}</b><small>Low stock</small></div></div>
+ <h2>Needs attention</h2>${ns.slice(0,8).map(siteCard).join('')||'<div class="empty">All sites are up to date 🎉</div>'}${ns.length>8?`<button class="btn ghost big" data-tab="sites">See all ${ns.length}</button>`:''}
+ ${low.length?`<h2>Running low</h2><div class="card col">${low.slice(0,6).map(i=>`<div class="row" style="justify-content:space-between"><span>${esc(i.name)}</span><small>${i.qty} / ${i.low} ${esc(i.unit)}</small></div>`).join('')}</div>`:''}`}
+
+function sitesView(){
+ const l=S.sites.filter(s=>s.name.toLowerCase().includes(q.toLowerCase())).sort((a,b)=>score(b)-score(a));
+ return `<div class="row" style="margin-bottom:12px"><input id="q" placeholder="Search sites" value="${esc(q)}"><button class="btn" style="flex:0 0 auto" data-act="addsite">+ Site</button></div>${l.map(siteCard).join('')||'<div class="empty">No sites found</div>'}`}
+
+function siteView(){
+ const s=S.sites.find(x=>x.id===cur);if(!s){cur=null;return sitesView()}
+ const vs=S.visits.filter(v=>v.siteId===s.id).sort((a,b)=>(b.date||'').localeCompare(a.date||'')),js=S.jobs.filter(j=>j.siteId===s.id).sort((a,b)=>(a.done?1:0)-(b.done?1:0));
+ return `<button class="back" data-act="back">‹ All sites</button>
+ <div class="card col"><div style="display:flex;gap:10px;align-items:center"><span class="dot ${s.priority||'low'}"></span><b style="font-size:20px">${esc(s.name)}</b></div>
+ <small>${esc(s.address||'No address yet')}${s.contact?' · '+esc(s.contact):''}</small>${s.email?`<small><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></small>`:''}${s.notes?`<p style="margin:8px 0 0">${esc(s.notes)}</p>`:''}
+ <div class="row" style="margin-top:12px"><button class="btn" data-act="visit" data-id="${s.id}">+ Log visit</button><button class="btn ghost" data-act="maps" data-id="${s.id}">Directions</button></div></div>
+ <h2>Jobs to do</h2><div class="card col">${js.map(j=>`<label class="job ${j.done?'d':''}"><input type="checkbox" data-job="${j.id}" ${j.done?'checked':''}><span>${esc(j.text)}</span></label>`).join('')}
+ <div class="row"><input id="nj" placeholder="e.g. Top up trees, tighten fence"><button class="btn sm" style="flex:0 0 auto" data-act="addjob" data-id="${s.id}">Add</button></div></div>
+ <h2>Visit history (${vs.length})</h2>${vs.map(v=>`<div class="card col"><div style="display:flex;gap:8px;align-items:center"><span class="dot ${v.priority||'low'}"></span><b>${fmt(v.date)}</b><small style="margin-left:auto">${esc(v.by||'')}</small></div><p style="margin:6px 0">${esc(v.work)}</p>${v.notes?`<small>${esc(v.notes)}</small>`:''}${(v.photos||[]).length?`<div class="ph">${v.photos.map(id=>`<img src="/_blob/${id}" alt="">`).join('')}</div>`:v.photoCount?`<small>📷 ${v.photoCount} photo${v.photoCount>1?'s':''} (from old app)</small>`:''}</div>`).join('')||'<div class="empty">No visits yet</div>'}`}
+
+function stockView(){
+ const l=S.stock.filter(i=>!lowOnly||isLow(i)).sort((a,b)=>(isLow(b)?1:0)-(isLow(a)?1:0)||a.name.localeCompare(b.name));
+ return `<div class="pills"><button class="btn ${lowOnly?'ghost':''}" data-act="all">All (${S.stock.length})</button><button class="btn ${lowOnly?'':'ghost'}" data-act="lowonly">Low (${S.stock.filter(isLow).length})</button><button class="btn ghost" data-act="additem">+ Item</button></div>
+ ${l.map(i=>`<div class="card ${isLow(i)?'low':''}"><div class="g"><b>${esc(i.name)}</b><small>${esc(i.where||'')}${i.low?' · low at '+i.low:''} · ${esc(i.unit||'')}</small></div><div class="qty"><button data-qty="-1" data-id="${i.id}">−</button><span class="n">${i.qty}</span><button data-qty="1" data-id="${i.id}">+</button></div></div>`).join('')||'<div class="empty">Nothing here</div>'}`}
+
+function render(){
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+ $('#sub').textContent=ready?S.sites.length+' sites':'Forest care';
+ $('#fab').style.display=tab==='stock'?'none':'';
+ if(err){$('#main').innerHTML='<div class="empty">'+esc(err)+'</div>';return}
+ if(!ready){$('#main').innerHTML='<div class="empty">Loading…</div>';return}
+ const y=scrollY;const a=document.activeElement&&document.activeElement.id;
+ $('#main').innerHTML=cur?siteView():tab==='today'?todayView():tab==='sites'?sitesView():stockView();
+ if(a==='q'){const e=$('#q');e.focus();e.setSelectionRange(99,99)}else scrollTo(0,y);
+}
+
+function sheet(title,body,save,label){
+ const el=document.createElement('div');el.className='ov';
+ el.innerHTML=`<div class="sh"><div class="sht"><b>${title}</b><button class="x">✕</button></div>${body}<button class="btn big" id="sv">${label||'Save'}</button></div>`;
+ document.body.appendChild(el);const close=()=>el.remove();
+ el.querySelector('.x').onclick=close;el.onclick=e=>{if(e.target===el)close()};
+ const b=el.querySelector('#sv');b.onclick=async()=>{b.disabled=true;b.textContent='Saving…';try{await save(el);close()}catch(e){b.disabled=false;b.textContent=label||'Save';toast('Couldn’t save, please try again')}};
+ return el}
+const opts=a=>a.map(([v,t,sel])=>`<option value="${v}" ${sel?'selected':''}>${esc(t)}</option>`).join('');
+
+function visitSheet(id){
+ const sites=[...S.sites].sort((a,b)=>a.name.localeCompare(b.name));
+ sheet('Log a visit',`<label>Site</label><select name="s">${opts(sites.map(s=>[s.id,s.name,s.id===id]))}</select>
+ <div class="row"><div><label>Date</label><input name="d" type="date" value="${today()}"></div><div><label>Priority now</label><select name="p">${opts([['low','Low'],['medium','Medium'],['urgent','Urgent']])}</select></div></div><br>
+ <label>Work carried out</label><textarea name="w" placeholder="Weeded path, fixed fence…"></textarea>
+ <label>Notes / what’s needed next</label><textarea name="n"></textarea>
+ ${assets?'<label>Photos</label><input name="ph" type="file" accept="image/*" multiple>':''}`,async el=>{
+  const sid=val(el,'s'),d=val(el,'d')||today(),p=val(el,'p'),w=val(el,'w');
+  if(!w){toast('Add what was done');throw 0}
+  const photos=[];if(assets){for(const f of el.querySelector('[name=ph]').files)photos.push((await assets.upload(f)).id)}
+  await db.collection('visits').add({siteId:sid,date:d,priority:p,work:w,notes:val(el,'n'),by:me?me.name:'',photos,at:Date.now()});
+  const s=S.sites.find(x=>x.id===sid);
+  if(!s||!s.lastVisit||d>=s.lastVisit)await db.doc('sites/'+sid).update({lastVisit:d,priority:p});
+  toast('Visit saved ✓')},'Save visit')}
+
+function siteSheet(){sheet('Add a site',`<label>Name</label><input name="n"><label>Address</label><input name="a"><label>Contact</label><input name="c"><label>Contact email</label><input name="e" type="email"><label>Notes</label><textarea name="o"></textarea>`,async el=>{
+  const n=val(el,'n');if(!n){toast('Name needed');throw 0}
+  await db.collection('sites').add({name:n,address:val(el,'a'),contact:val(el,'c'),email:val(el,'e'),notes:val(el,'o'),priority:'low',lastVisit:''});toast('Site added ✓')})}
+function itemSheet(){sheet('Add stock item',`<label>Name</label><input name="n"><div class="row"><div><label>Quantity</label><input name="q" type="number" value="1"></div><div><label>Low at</label><input name="l" type="number" value="0"></div></div><br><div class="row"><div><label>Unit</label><input name="u" placeholder="rolls, each…"></div><div><label>Kept at</label><input name="w" placeholder="Polytunnel"></div></div>`,async el=>{
+  const n=val(el,'n');if(!n){toast('Name needed');throw 0}
+  await db.collection('stock').add({name:n,qty:+val(el,'q')||0,low:+val(el,'l')||0,unit:val(el,'u'),where:val(el,'w')});toast('Item added ✓')})}
+
+document.addEventListener('click',async e=>{
+ const t=e.target.closest('[data-tab],[data-site],[data-act],[data-qty]');if(!t)return;
+ const D=t.dataset;
+ if(D.tab){tab=D.tab;cur=null;render();scrollTo(0,0)}
+ else if(D.site){cur=D.site;render();scrollTo(0,0)}
+ else if(D.qty){const i=S.stock.find(x=>x.id===D.id);if(i&&db)db.doc('stock/'+i.id).update({qty:Math.max(0,i.qty+ +D.qty)}).catch(()=>toast('Couldn’t update'))}
+ else if(D.act==='back'){cur=null;render()}
+ else if(D.act==='visit')visitSheet(D.id);
+ else if(D.act==='addsite')siteSheet();
+ else if(D.act==='additem')itemSheet();
+ else if(D.act==='lowonly'){lowOnly=true;render()}
+ else if(D.act==='all'){lowOnly=false;render()}
+ else if(D.act==='maps'){const s=S.sites.find(x=>x.id===D.id);open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((s.name+' '+(s.address||'Plymouth')).trim()),'_blank')}
+ else if(D.act==='addjob'){const i=$('#nj'),x=i.value.trim();if(x){await db.collection('jobs').add({siteId:D.id,text:x,done:false,at:Date.now()}).catch(()=>toast('Couldn’t save'))}}
+});
+document.addEventListener('change',e=>{if(e.target.dataset.job&&db)db.doc('jobs/'+e.target.dataset.job).update({done:e.target.checked}).catch(()=>toast('Couldn’t update'))});
+document.addEventListener('input',e=>{if(e.target.id==='q'){q=e.target.value;render()}});
+$('#fab').onclick=()=>visitSheet(cur);
+
+(async()=>{
+ render();
+ const timer=setTimeout(()=>{if(!ready){err='Couldn’t reach the shared data. Open this page signed in to claude.ai.';render()}},10000);
+ try{
+  db=await window.claude.use('db');const u=await window.claude.use('user');assets=await window.claude.use('assets');
+  if(u)me=await u.me();
+  if(!db){err='Please sign in to claude.ai to see the shared data.';clearTimeout(timer);render();return}
+  ['sites','visits','stock','jobs'].forEach(c=>db.collection(c).onSnapshot(s=>{S[c]=s.docs.map(d=>({id:d.id,...d.data()}));ready=true;clearTimeout(timer);render()},e=>{err='Data error: '+e.code;render()}));
+ }catch(e){err='Couldn’t start. Please reload.';render()}
+})();
+</script>
+</body>
+</html>
