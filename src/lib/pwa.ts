@@ -35,6 +35,10 @@ function isStandalone() {
   return isWeb && (window.matchMedia?.('(display-mode: standalone)').matches || (navigator as Navigator & { standalone?: boolean }).standalone === true);
 }
 
+function isAndroid() {
+  return isWeb && /Android/i.test(navigator.userAgent);
+}
+
 function isIOS() {
   if (!isWeb) return false;
   const ua = navigator.userAgent;
@@ -52,8 +56,9 @@ function readDismissed() {
 /**
  * What install help to show on the web:
  *  - 'prompt': the browser can install it in one tap (Android/Chrome/Edge)
- *  - 'ios': Safari, so explain Share → Add to Home Screen
- *  - null: native app, already installed, or dismissed
+ *  - 'ios': iPhone/iPad, so explain Share → Add to Home Screen
+ *  - 'android': Android but no install prompt (e.g. opened inside WhatsApp), so explain Chrome's menu
+ *  - null: computer, native app, already installed, or dismissed
  */
 export function useInstallOffer() {
   const [, force] = useState(0);
@@ -67,7 +72,8 @@ export function useInstallOffer() {
     };
   }, []);
 
-  const kind: 'prompt' | 'ios' | null = !isWeb || dismissed || isStandalone() ? null : deferred ? 'prompt' : isIOS() ? 'ios' : null;
+  const kind: 'prompt' | 'ios' | 'android' | null =
+    !isWeb || dismissed || isStandalone() ? null : deferred ? 'prompt' : isIOS() ? 'ios' : isAndroid() ? 'android' : null;
 
   return {
     kind,

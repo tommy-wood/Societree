@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { InstallBanner } from '@/components/install-banner';
 import { BrandScreen, Button, Field, LinkText, Message } from '@/components/ui';
 import { authRedirectUrl, friendlyAuthError } from '@/lib/auth';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
@@ -55,6 +56,7 @@ export default function SignIn() {
     <BrandScreen
       title={signup ? 'Create your account' : 'Sign in'}
       subtitle={signup ? 'An admin will approve your account before you can see the sites.' : 'Log visits, see what needs doing and keep track of stock.'}>
+      <InstallBanner />
       {!supabaseConfigured && <Message tone="error">The app isn’t connected to Supabase yet (missing .env.local).</Message>}
       {signup && <Field label="Your name" value={name} onChangeText={setName} autoComplete="name" textContentType="name" placeholder="e.g. Sam Green" />}
       <Field
