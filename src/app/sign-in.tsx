@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import { InstallBanner } from '@/components/install-banner';
 import { BrandScreen, Button, Field, LinkText, Message } from '@/components/ui';
 import { authRedirectUrl, friendlyAuthError } from '@/lib/auth';
-import { supabase, supabaseConfigured } from '@/lib/supabase';
+import { openedFromFailedEmailLink, supabase, supabaseConfigured } from '@/lib/supabase';
 
 export default function SignIn() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
@@ -17,6 +17,10 @@ export default function SignIn() {
   const [notice, setNotice] = useState('');
 
   const signup = mode === 'signup';
+
+  const linkError = openedFromFailedEmailLink
+    ? 'That email link has expired or was already used. If you’ve confirmed your email, just sign in below. Otherwise, sign in to get a new confirmation email.'
+    : '';
 
   async function submit() {
     setError('');
@@ -57,6 +61,7 @@ export default function SignIn() {
       title={signup ? 'Create your account' : 'Sign in'}
       subtitle={signup ? 'An admin will approve your account before you can see the sites.' : 'Log visits, see what needs doing and keep track of stock.'}>
       <InstallBanner />
+      {linkError ? <Message tone="error">{linkError}</Message> : null}
       {!supabaseConfigured && <Message tone="error">The app isn’t connected to Supabase yet (missing .env.local).</Message>}
       {signup && <Field label="Your name" value={name} onChangeText={setName} autoComplete="name" textContentType="name" placeholder="e.g. Sam Green" />}
       <Field

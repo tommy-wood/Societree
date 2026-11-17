@@ -16,6 +16,17 @@ const key = process.env.EXPO_PUBLIC_SUPABASE_KEY || PRODUCTION_KEY;
 
 export const supabaseConfigured = Boolean(url && key);
 
+/**
+ * True when the page was opened from an email link that failed (expired, or
+ * already used, often because it was opened on a different device). Read
+ * before the Supabase client starts, because it clears the address bar.
+ */
+export const openedFromFailedEmailLink = (() => {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return false;
+  const params = new URLSearchParams(window.location.hash.slice(1) || window.location.search.slice(1));
+  return Boolean(params.get('error') || params.get('error_code'));
+})();
+
 // The publishable (anon) key is safe to ship in the app: Row Level Security
 // decides what each signed-in user can do. Never put the secret key here.
 export const supabase = createClient<Database>(

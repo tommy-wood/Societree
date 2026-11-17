@@ -39,6 +39,41 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run Societree.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot" style="font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: #5d7066; text-align: center; padding: 48px 20px; width: 100%">
+        Loading Societree…
+      </div>
+    </div>
+    <script>
+      // If the app can't start (very old browser, or a broken saved copy), say so
+      // instead of leaving a blank screen, and offer a clean reload.
+      (function () {
+        var shown = false;
+        function show(msg) {
+          if (shown) return;
+          var root = document.getElementById('root');
+          if (!root || (root.children.length && !document.getElementById('boot'))) return; // app is running
+          shown = true;
+          root.innerHTML =
+            '<div style="font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;padding:40px 20px;color:#14281f;background:#f3f7f4;width:100%">' +
+            '<p style="font-size:20px;font-weight:700;margin:0 0 8px">Societree couldn\u2019t start</p>' +
+            '<p style="margin:0 0 16px;color:#5d7066">Try the button below. If it keeps happening, update your browser (Chrome, Edge, Safari or Firefox) or send this message to the person who set up the app:</p>' +
+            '<pre style="white-space:pre-wrap;background:#fff;border:1px solid #dde6e0;border-radius:10px;padding:10px;font-size:13px;color:#5d7066">' +
+            String(msg).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }) +
+            '\n' + navigator.userAgent.replace(/[&<>]/g, '') + '</pre>' +
+            '<button id="reset" style="background:#1f7a4d;color:#fff;border:0;border-radius:12px;padding:14px 18px;font:inherit;font-weight:600;width:100%;margin-top:12px">Reset and reload</button></div>';
+          document.getElementById('reset').onclick = function () {
+            var jobs = [];
+            if (navigator.serviceWorker) jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }));
+            if (window.caches) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }));
+            Promise.all(jobs).catch(function () {}).then(function () { location.replace('/'); });
+          };
+        }
+        window.addEventListener('error', function (e) { show(e.message || 'Script error'); });
+        window.addEventListener('unhandledrejection', function (e) { show((e.reason && e.reason.message) || 'Unexpected error'); });
+        // Nothing drawn after 15 seconds: something is stuck.
+        setTimeout(function () { if (document.getElementById('boot')) show('The app took too long to start.'); }, 15000);
+      })();
+    </script>
   </body>
 </html>
