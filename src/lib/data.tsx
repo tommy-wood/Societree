@@ -21,6 +21,8 @@ type DataState = {
   overdueDays: number;
   /** Re-fetch everything. Pass true to skip the "fetched in the last few seconds" shortcut. */
   reload: (force?: boolean) => Promise<void>;
+  /** Update a stock item locally straight away (optimistic UI), before the server confirms. */
+  patchStock: (id: string, patch: Partial<StockItem>) => void;
 };
 
 const DataContext = createContext<DataState | null>(null);
@@ -59,6 +61,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
     return inFlight.current;
   }, []);
 
+  const patchStock = useCallback((id: string, patch: Partial<StockItem>) => {
+    setRaw((r) => (r ? { ...r, stock: r.stock.map((i) => (i.id === id ? { ...i, ...patch } : i)) } : r));
+  }, []);
+
   useEffect(() => {
     reload(true);
     const sub = AppState.addEventListener('change', (s) => s === 'active' && reload());
@@ -79,8 +85,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
         };
       })
       .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
-    return { loading: !raw && !error, error, sites, stock: raw?.stock ?? [], overdueDays, reload };
-  }, [raw, error, reload]);
+    return { loading: !raw && !error, error, sites, stock: raw?.stock ?? [], overdueDays, reload, patchStock };
+  }, [raw, error, reload, patchStock]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }
