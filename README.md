@@ -62,7 +62,7 @@ Hosting is on **Cloudflare Workers** (free, static files only), connected to thi
 
 - Build command: `npm run build:web`
 - Deploy command: `npx wrangler deploy`
-- Build variables (Settings → Build → Variables and secrets): `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_KEY` (publishable key), `NODE_VERSION` = `22`
+- Build variable (Settings → Build → Variables and secrets): `NODE_VERSION` = `22`. The live Supabase URL and publishable key are built in (`src/lib/supabase.ts`); set `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_KEY` only to point a build at a different project.
 - The Worker's name in the dashboard must match `name` in `wrangler.jsonc` (`societree`).
 
 Every push to `main` deploys the live site; other branches get their own preview link. After the first deploy, add the site's address in Supabase under **Authentication → URL Configuration** (Site URL, plus Redirect URLs).

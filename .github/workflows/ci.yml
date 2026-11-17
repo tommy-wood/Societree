@@ -23,11 +23,6 @@ jobs:
       - run: npm test
       - run: npx expo lint
       - run: npm run build:web
-        env:
-          # Placeholders: the build doesn't talk to Supabase. Real values are set
-          # in the hosting provider (Cloudflare Pages / Vercel) at deploy time.
-          EXPO_PUBLIC_SUPABASE_URL: https://example.supabase.co
-          EXPO_PUBLIC_SUPABASE_KEY: sb_publishable_placeholder
       - uses: actions/upload-artifact@v4
         with:
           name: web-build

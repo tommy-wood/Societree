@@ -4,17 +4,23 @@ import { AppState, Platform } from 'react-native';
 
 import type { Database } from './database.types';
 
-const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const key = process.env.EXPO_PUBLIC_SUPABASE_KEY;
+// Societree's live Supabase project. The URL and publishable key are public by
+// design (they ship inside every copy of the app); Row Level Security in the
+// database is what protects the data. Set EXPO_PUBLIC_SUPABASE_URL/KEY (e.g. in
+// .env.local) to point the app at a different project, such as a local one.
+const PRODUCTION_URL = 'https://zbdbtgqbdzgjmxwhoxns.supabase.co';
+const PRODUCTION_KEY = 'sb_publishable_q7nAGu21x8L6n8bKOQ28Kg_80MnAXB1';
 
-/** False until .env.local has the project URL and publishable key. */
+const url = process.env.EXPO_PUBLIC_SUPABASE_URL || PRODUCTION_URL;
+const key = process.env.EXPO_PUBLIC_SUPABASE_KEY || PRODUCTION_KEY;
+
 export const supabaseConfigured = Boolean(url && key);
 
 // The publishable (anon) key is safe to ship in the app: Row Level Security
 // decides what each signed-in user can do. Never put the secret key here.
 export const supabase = createClient<Database>(
-  url ?? 'http://127.0.0.1:54321',
-  key ?? 'missing-key',
+  url,
+  key,
   {
     auth: {
       ...(Platform.OS !== 'web' ? { storage: AsyncStorage } : {}),
