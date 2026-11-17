@@ -647,5 +647,24 @@
       "kept_at": "Store",
       "notes": "Mixed sizes"
     }
-  ]
+  ],
+  "jobs": [
+    {
+      "site_id": "manor-primary",
+      "text": "40 round logs"
+    },
+    {
+      "site_id": "manor-primary",
+      "text": "Pathway logs: 16m (a later note says 22m, check which)"
+    },
+    {
+      "site_id": "manor-primary",
+      "text": "Bag up mulch: as many as possible, maybe 100 bags"
+    },
+    {
+      "site_id": "manor-primary",
+      "text": "Cardboard: 2 bundles"
+    }
+  ],
+  "jobs_note": "Added 2026-11-18: Manor Primary to-do list from its two 2026-10-22 visits, modelled as open jobs."
 }

@@ -43,9 +43,15 @@ npm run test:rls
 
 After changing the schema, add a new file in `supabase/migrations/` and run `npm run db:types`.
 
-## Permissions
+## Accounts and permissions
 
-Signed-in users can read everything, log visits, add and tick jobs, upload photos, add and change stock, and edit site details (including the GPS location). Only admins can add or delete sites, delete visits, delete stock items, change settings and change user roles. The first person to sign up becomes the admin. Signed-out users see nothing.
+People sign in with email and password. The first person to sign up becomes the admin. Everyone after that waits as **pending** and sees nothing until an admin approves them (👤 → People and approvals).
+
+- **Volunteers** can read everything, log visits, add and tick jobs, upload photos, add and change stock, and edit site details (including the GPS location).
+- **Admins** can also add and delete sites, delete visits and stock items, change settings, approve people and change roles. There must always be at least one admin.
+- The People screen also links names from the old Base44 visits ("Thomas Woodward", "tommysocietree", ...) to real accounts.
+
+In the Supabase dashboard, under **Authentication → URL Configuration**, set the Site URL to the web app's address (for now `http://localhost:8081`). Confirmation and password-reset emails link back there.
 
 ## CI
 

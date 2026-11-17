@@ -50,8 +50,31 @@ const anon = createClient(url, publishable, opts);
 // profiles / roles
 const { data: profs } = await service.from('profiles').select('id, role, name').in('id', [admin.id, vol.id]);
 ok(profs.find((p) => p.id === admin.id)?.role === 'admin', 'first user becomes admin');
-ok(profs.find((p) => p.id === vol.id)?.role === 'volunteer', 'second user is a volunteer');
+ok(profs.find((p) => p.id === vol.id)?.role === 'pending', 'second user starts as pending');
 ok(profs.find((p) => p.id === vol.id)?.name === `vol${stamp}`, 'profile name taken from sign-up metadata');
+
+// pending users see nothing until approved
+const pendSites = await vol.c.from('sites').select('id');
+ok(pendSites.data?.length === 0, 'pending user cannot read sites');
+const pendProfiles = await vol.c.from('profiles').select('id');
+ok(pendProfiles.data?.length === 1 && pendProfiles.data[0].id === vol.id, 'pending user can read only their own profile');
+const pendVisit = await vol.c.from('visits').insert({ site_id: (await service.from('sites').select('id').limit(1).single()).data.id, work_carried_out: 'x' });
+ok(!!pendVisit.error, 'pending user cannot log a visit');
+const pendStock = await vol.c.from('stock_items').select('id');
+ok(pendStock.data?.length === 0, 'pending user cannot read stock');
+const adminSeesPending = await admin.c.from('profiles').select('id, role').eq('id', vol.id);
+ok(adminSeesPending.data?.[0]?.role === 'pending', 'admin can see pending users');
+const lastAdmin = await admin.c.from('profiles').update({ role: 'volunteer' }).eq('id', admin.id);
+ok(!!lastAdmin.error, 'the last admin cannot demote themselves');
+const approve = await admin.c.from('profiles').update({ role: 'volunteer' }).eq('id', vol.id).select();
+ok(approve.data?.[0]?.role === 'volunteer', 'admin can approve a pending user as volunteer');
+
+// legacy visit linking
+const volLink = await vol.c.rpc('link_legacy_visits', { p_legacy_name: 'Beth Rose', p_profile_id: vol.id });
+ok(!!volLink.error, 'volunteer cannot link old visits');
+const adminLink = await admin.c.rpc('link_legacy_visits', { p_legacy_name: 'Beth Rose', p_profile_id: vol.id });
+ok(adminLink.data === 2, `admin can link old visits to a profile (${adminLink.data} linked)`);
+await service.from('visits').update({ logged_by: null }).eq('legacy_logged_by', 'Beth Rose');
 
 const selfPromote = await vol.c.from('profiles').update({ role: 'admin' }).eq('id', vol.id);
 ok(!!selfPromote.error, 'volunteer cannot make themselves admin');

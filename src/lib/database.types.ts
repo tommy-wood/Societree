@@ -172,6 +172,12 @@ isOneToOne: false
             "is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"is_member":
+{ Args: Record<PropertyKey, never>; Returns: boolean
+                           },
+"link_legacy_visits":
+{ Args: { "p_legacy_name": string,"p_profile_id": string }; Returns: number
+                           },
 "recompute_site_from_visits":
 { Args: { "p_site_id": string }; Returns: undefined
                            }
